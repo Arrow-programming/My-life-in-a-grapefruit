@@ -7,6 +7,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <title>Grapefruit</title>
         <style>
             
@@ -458,13 +459,13 @@
                 font-size: 2rem;
                 margin: 0;
                 font-weight: 400;
-                color: #353535;
+                color: #242424;
             }
             hero #txt h3 {
-                font-size: 2.5rem;
+                font-size: 2rem;
                 margin: 0;
                 font-weight: 400;
-                color: #353535;
+                color: #242424;
             }
             
             #type {
@@ -481,6 +482,111 @@
                 display: inline;
                 color: white;
             }
+            
+
+            #icons {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 18px;
+                margin-top: 20px;
+            }
+
+            #icons a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 44px;
+                height: 44px;
+                text-decoration: none;
+                border-radius: 50%;
+                transition: background 0.2s;
+            }
+
+            #icons i {
+                font-size: 32px;      /* Standardize icon size */
+                width: 32px;
+                height: 32px;
+                color: #888;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: color 0.3s, filter 0.3s;
+            }
+
+            #icons img {
+                width: 32px;
+                height: 32px;
+                object-fit: contain;
+                filter: grayscale(100%) brightness(0.9);
+                transition: filter 0.3s;
+                display: block;
+            }
+
+            #icons a:hover i {
+                color: #4F98CA !important;
+            }
+
+            #icons a:hover img {
+                filter: grayscale(0%) brightness(1) sepia(1) hue-rotate(180deg) saturate(4);
+            }
+
+
+
+
+            
+
+    		.place {
+    		    z-index: 15;
+    		    width: 100%;
+    		    height: 38%;
+    		    top: 80%;
+    		    position: absolute;
+    		}
+    		.place .material-symbols-outlined {
+			    overflow: hidden; 
+			    color: #50D890; 
+			    font-size: 7rem; 
+			    text-shadow: 0px 0px 3px #50D890; 
+			    top: 30vh;
+			    z-index: 16;
+                margin-left: -3.5rem;
+			    position: absolute;
+			}
+    		.place .material-symbols-outlined {
+    		    animation: anima 1s linear infinite;
+    		    user-select: none;
+    		}
+    		.place .material-symbols-outlined:hover {
+    		    animation: anim 0.3s linear infinite;
+    		    animation: anima 0.3s linear infinite;
+    		    color: #242424; 
+                text-shadow: none;
+    		}
+    		@keyframes anima {
+                0% {
+    				transform: translateY(0px) rotate(0deg);
+    				opacity: 1;
+    			}
+    			50% {
+    				transform: translateY(5px) rotate(0deg);
+    			}
+    			100% {
+    				transform: translateY(0px) rotate(0deg);
+    			}
+    		}
+    		@keyframes anim {
+                0% {
+    				transform: rotate(0deg);
+    				opacity: 1;
+    			}
+    			50% {
+    			    transform: rotate(-3deg);
+    			}
+                100% {
+    				transform: rotate(3deg);
+    			}
+    		}
         </style>
         <!--Content-->
         <style>
@@ -531,7 +637,7 @@
             <div id = "hero-overlay"></div>
             <div id = "hero-overlay-overlay"></div>
             <div id = "txt">
-                <h2><span style = "color: #2B4865;">Hello!</span> My name is</h2>
+                <h2><span style = "color: #78aee0;">Hello!</span> My name is</h2>
                 <h1><span style = "color: #78aee0;">Paul</span> Vanderboon</h1>
                 <h3>And I am a  <span id="type">
                         <p></p>
@@ -539,6 +645,29 @@
                         <p></p>
                     </span></h3>
             <div>
+            <div id = "icons">
+                <a href="https://github.com/Arrow-programming" target="_blank">
+                    <i class="fab fa-github github-icon"></i>
+                </a>
+                <a href="https://www.inaturalist.org/people/outfoxed" target="_blank">
+                    <img src="https://www.inaturalist.org/favicon.ico" alt="iNaturalist" class="inaturalist-icon">
+                </a>
+                
+                <a href="https://www.khanacademy.org/profile/Arrow.programming" target="_blank">
+                    <img src="https://www.khanacademy.org/favicon.ico" alt="Khan Academy" class="khan-icon">
+                </a>
+                <a href="https://ebird.org/profile/MzM1Mzc2Nw/US" target="_blank">
+                    <img src="https://ebird.org/favicon.ico" alt="eBird" class="ebird-icon">
+                </a>
+                <a href="https://biology.stackexchange.com/users/80807/arrow" target="_blank">
+                    <img src="https://biology.stackexchange.com/favicon.ico" alt="Biology Stack Exchange" class="biose-icon">
+                </a>
+
+
+            </div>
+            <div class = "place" style = "position: absolute;">
+                <span class="material-symbols-outlined" onclick = "Scroll(1000)">stat_minus_1</span>
+            </div>
         </hero>
         <content>
 
