@@ -1,8 +1,15 @@
 <!DOCTYPE html>
+<!--
+
+-->
 <html>
     <head>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
         <title>Grapefruit</title>
         <style>
+            
             /*
                 I like to copy and paste 
                 a lot of this CSS everytime 
@@ -14,7 +21,6 @@
                 transition: 200ms;
             }
             body {
-                font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
                 font-family: 'Lato', sans-serif;
@@ -93,30 +99,766 @@
                 border: 2px solid #272727;
                 background-color: "";
             }
+            
+        </style>
+        <!--Navigation-->
+        <style>
+            nav {
+                display: flex;
+                justify-content: center;
+                position: fixed;
+                top: 10px;
+                width: 100%;
+                z-index: 100;
+                user-select: none;
+            }
+            nav.sticky {
+                position: fixed;
+                top: 0;
+            }
+            nav ul {
+                list-style-type: none;
+                padding: 3px 5px;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                /*background: rgba(255, 255, 255, 0.2);
+                -webkit-backdrop-filter: blur(5px);
+                backdrop-filter: blur(5px);
+                border-radius: 20px;*/
+            }   
+            nav ul li {
+                margin: 0 5px;
+                position: relative;
+            }
+            
+            /* Center align the dropdown text and arrow */
+            nav ul li a {
+                display: flex; /* Use flexbox for alignment */
+                align-items: center; /* Vertically center the text and arrow */
+                justify-content: space-between; /* Add space between text and arrow */
+                color: white;
+                text-decoration: none;
+                padding: 10px 18px;
+                border-radius: 20px;
+            }
+
+            nav ul li a span.material-symbols-outlined {
+                font-size: 20px; /* Adjust the size of the arrow */
+                margin-left: 5px; /* Add some spacing between the text and the arrow */
+                line-height: 1; /* Ensure the arrow doesn't affect line height */
+            }
+
+            nav ul li a:hover {
+                background-color: #FFD369;
+            }
+            
+            @media (max-width: 768px) {
+                nav ul li a:hover,
+                #nav-links li ul li a:hover {
+                    background-color: #FFD369 !important;
+                    color: white !important;
+                    border-radius: 20px;
+                }
+            }
+
+            /* Add sliding animation to dropdown */
+            nav ul li ul {
+                transition: 0s;
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background: rgba(255, 255, 255, 0.2);
+                -webkit-backdrop-filter: blur(5px);
+                backdrop-filter: blur(5px);
+                box-shadow: 0px 0px 15px rgb(0, 0, 0, 0.5);
+                border-radius: 10px;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px); /* Start slightly above */
+                /*transition: opacity 1.3s ease, visibility 1.3s ease, transform 1.3s ease; /* Smooth transition */
+            }
+
+            nav ul li:hover ul {
+                display: block;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0); /* Slide into place */
+            }
+            nav ul li ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0px 0px 15px rgb(0, 0, 0, 0.5);
+                border-radius: 10px;
+            }
+            nav ul li:hover ul {
+                display: block;
+            }
+            nav ul li ul li {
+                width: 200px;
+            }
+            nav ul li ul li a {
+                color: black;
+                border-radius: 30px;
+                /*background-color: #FFD369;*/
+                background: none;
+                border-style: solid;
+                border-color: transparent;
+                padding: 10px 12px;
+            }
+            nav ul li ul li a:hover {
+                background-color: rgba(39, 32, 0, 0.2);
+                border-radius: 5px;
+                /*color: white;*/
+            }
+            
+            #underlay {
+                transition: 1s;
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 70px;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.5);
+                -webkit-backdrop-filter: blur(15px);
+                backdrop-filter: blur(15px);
+                box-shadow: 0px 0px 15px rgb(0, 0, 0, 0.5);
+                z-index: 20;
+            }
+            
+
+            #hamburger {
+                display: none;
+                font-size: 30px;
+                cursor: pointer;
+                color: white;
+                padding: 10px;
+                z-index: 30;
+            }
+
+            #nav-links {
+                display: flex;
+                list-style-type: none;
+                padding: 3px 5px;
+                margin: 0;
+                justify-content: center;
+            }
+
+            #nav-links li {
+                margin: 0 5px;
+                position: relative;
+            }
+
+            #nav-links li ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background: rgba(255, 255, 255, 0.8);
+                -webkit-backdrop-filter: blur(5px);
+                backdrop-filter: blur(5px);
+                box-shadow: 0px 0px 15px rgb(0, 0, 0, 0.5);
+                border-radius: 10px;
+            }
+
+            #nav-links li:hover ul {
+                display: block;
+            }
+
+            /* 
+                Add top and bottom lines for dropdown links 
+                Only when not in mobile
+            */
+            @media (min-width: 768px) {
+                
+            }
+            
+            /* Mobile Menu */
+            @media (max-width: 768px) {
+                #hamburger {
+                    display: block;
+                }
+
+                #nav-links {
+                    display: none;
+                    flex-direction: column;
+                    background: rgba(0, 0, 0, 0.9); 
+                    -webkit-backdrop-filter: blur(5px);
+                    backdrop-filter: blur(5px);
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    z-index: 30; /* Ensure it appears above other elements */
+                    justify-content: flex-start; /* Align links to the top */
+                    align-items: center; /* Center the links horizontally */
+                    padding-top: 70px; 
+                    overflow-y: auto; /* Enable vertical scrolling */
+                }
+                
+                @media (max-width: 768px) {
+                    #nav-links > li > a.no-click {
+                        display: none !important;
+                    }
+                }
+
+                nav ul li a {
+                    font-size: 1.7rem;
+                }
+
+                nav ul li ul li a {
+                    font-size: 1.7rem;
+                    color: #FFD369; 
+                    
+                }
+
+                #nav-links li {
+                    text-align: center;
+                    margin: 0px 0; /* Add spacing between links */
+                    width: auto; /* Adjust width for better alignment */
+                }
+
+                #nav-links li ul {
+                    position: static;
+                    box-shadow: none; 
+                    background: transparent; 
+                    -webkit-backdrop-filter: none; 
+                    backdrop-filter: none; 
+                    user-select: none;
+                }
+
+                /* Always display dropdown content */
+                nav ul li ul {
+                    display: block !important; /* Ensure dropdown content is always visible */
+                    position: static; /* Remove absolute positioning */
+                    background: transparent; /* Remove background styling */
+                    box-shadow: none; /* Remove shadow */
+                    padding: 0; /* Remove padding */
+                    margin: 0; /* Remove margin */
+                    opacity: 1; /* Ensure visibility */
+                    visibility: visible; /* Ensure visibility */
+                    transform: none; /* Remove any transform effects */
+                }
+
+                /* Adjust dropdown links */
+                nav ul li ul li {
+                    width: auto; /* Adjust width for better alignment */
+                }
+
+                nav ul li ul li a {
+                    color: white; /* Ensure text is visible */
+                    padding: 5px 0px; /* Add padding for spacing */
+                    text-align: left; /* Align text to the left */
+                }
+
+                /* Remove hover effects */
+                nav ul li:hover ul {
+                    display: block; /* Ensure dropdown content is always displayed */
+                    opacity: 1;
+                    visibility: visible;
+                    transform: none;
+                }
+
+                #hamburger {
+                    display: block;
+                    font-size: 30px;
+                    cursor: pointer;
+                    color: white;
+                    padding: 10px;
+                    z-index: 40; /* Ensure it appears above the menu */
+                    position: fixed; /* Keep the hamburger icon fixed */
+                    top: 10px; /* Position it at the top */
+                    left: 50%; /* Start at the center of the screen */
+                    transform: translateX(-50%); /* Adjust to truly center the icon */
+                }
+
+                
+            }
+            @media (max-width: 768px) {
+                #nav-links li ul li a {
+                    text-align: center; /* Center the text inside the dropdown links */
+                    display: block; /* Ensure the links take up the full width */
+                    padding: 10px 0; /* Adjust padding for better spacing */
+                    color: white;
+                }
+
+                #nav-links li ul li {
+                    text-align: center; /* Center the dropdown items */
+                }
+            }
+
+            
+        </style>
+        <!--Hero-->
+        <style>
             /* Hero */
             hero {
-                background-image: url('https://wallup.net/wp-content/uploads/2019/05/10/1025951-featured-fresh-and-beautiful-blue-sea-waves-blue.jpg');
+                background-image: url('https://wallpapercave.com/wp/wp4570765.jpg');
                 height: 100vh;
                 background-size: cover;
                 background-position: center;
+                background-attachment: fixed;
                 position: relative;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 color: white;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+                /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);*/
+            }
+            #hero-underlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1;
+            }
+            #hero-overlay {
+                position: absolute;
+                top: -10%;
+                left: 0;
+                width: 100%;
+                background-image: url('https://raw.githubusercontent.com/Arrow-programming/My-life-in-a-grapefruit/refs/heads/main/unnamed.png');
+                height: 100vh;
+                background-size: cover;
+                background-position: center;
+                z-index: 2;
+            }
+            #hero-overlay-overlay {
+                position: absolute;
+                top: 60%;
+                left: 0;
+                width: 100%;
+                height: 40%;
+                background-color: rgba(255, 255, 255);
+                z-index: 3;
+            }
+
+            hero #txt {
+                position: relative;
+                z-index: 4;
+                text-align: center;
+                left: 0;
+                top: 0%
+            }
+            hero #txt h1 {
+                font-size: 6rem;
+                margin: 0;
+                color: #242424;
+            }
+            hero #txt h2 {
+                font-size: 2rem;
+                margin: 0;
+                font-weight: 400;
+                color: #353535;
+            }
+            hero #txt h3 {
+                font-size: 2.5rem;
+                margin: 0;
+                font-weight: 400;
+                color: #353535;
+            }
+            
+            #type {
+                display: inline; /* Make the div behave like an inline element */
+                color: #5ec49d;
+                text-align: center;
+                overflow: hidden;
+                margin: 0; /* Remove any default margin */
+                padding: 0; /* Remove any default padding */
+            }
+            #type p {
+                position: relative;
+                transform: translate(4px);
+                display: inline;
+                color: white;
+            }
+        </style>
+        <!--Content-->
+        <style>
+            content {
+                position: absolute;
+                top: 100vh;
+                width: 100%;
+                height: 100%;
             }
         </style>
     </head>
     <body>
         <header>
-
+            <div id="underlay"></div>
+                <nav id="navbar">
+                    <div id="hamburger" onclick="toggleMenu()">&#9776;</div> <!-- Hamburger Icon -->
+                    <ul id="nav-links">
+                        <li><a id="homeLink" class="tablink" onclick="openPage('home', this, '#FFD369', true); Scroll(0);">Home</a></li>
+                        <li>
+                            <!--About Us Directory-->
+                            <a>About Us <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
+                            <ul>
+                                <li><a onclick="openPage('WhoWeAre', this, '#FFD369', true); Scroll(0);">Who We Are</a></li>
+                                <li><a onclick="openPage('DoctrinalStandards', this, '#FFD369', true); Scroll(0);">Doctrinal Standards</a></li>
+                                <li><a onclick="openPage('OurLeadership', this, '#FFD369', true); Scroll(0);">Our Leadership</a></li>
+                                <li><a onclick="openPage('Ministries', this, '#FFD369', true); Scroll(0);">Ministries</a></li>
+                                <li><a onclick="openPage('FAQs', this, '#FFD369', true); Scroll(0);">FAQs</a></li>
+                                <li><a href = "https://frcna.org/" target="_blank">Free Reformed Churches (FRCNA)</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a>Worship <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
+                            <ul>
+                                <li><a onclick="openPage('WorshipInfo', this, '#FFD369', true); Scroll(0);">Worship Info</a></li>
+                                <li><a onclick="openPage('Sermons', this, '#FFD369', true); Scroll(0);">Sermons</a></li>
+                                <li><a onclick="openPage('Meditation', this, '#FFD369', true); Scroll(0);">Meditation</a></li>
+                                <li><a onclick="openPage('LiveStream', this, '#FFD369', true); Scroll(0);">Live Stream</a></li>
+                            </ul>
+                        </li>
+                        <li><a id="calendarLink" class="tablink" onclick="openPage('Calendar', this, '#FFD369', true); Scroll(0);">Calendar</a></li>
+                        <li><a id="contactUsLink" class="tablink" onclick="openPage('ContactUs', this, '#FFD369', true); Scroll(0);">Contact Us</a></li>
+                        <li><a id="" class="tablink" href = "https://rfrc.breezechms.com/login" target = "_blank">Give Now</a></li>
+                    </ul>
+                </nav>
         </header>   
         <hero>  
-            <h1></h1>
-
+            <div id = "hero-underlay"></div>
+            <div id = "hero-overlay"></div>
+            <div id = "hero-overlay-overlay"></div>
+            <div id = "txt">
+                <h2><span style = "color: #2B4865;">Hello!</span> My name is</h2>
+                <h1><span style = "color: #78aee0;">Paul</span> Vanderboon</h1>
+                <h3>And I am a  <span id="type">
+                        <p></p>
+                        <span id="typeCursor"></span>
+                        <p></p>
+                    </span></h3>
+            <div>
         </hero>
-        
-        
+        <content>
+
+        </content>
     </body>
+    <!--Page & Nav JS-->
+    <script>
+        // Open a page  
+        function openPage(pageName, elmnt, color, glow) {
+            var i, tabcontent, tablinks;
+    
+            // Hide all tabcontent
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+    
+            // Reset all tablinks' styles
+            tablinks = document.querySelectorAll("nav ul li a");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = ""; // Reset background to blank
+                tablinks[i].style.boxShadow = "";      // Remove glow effect
+            }
+    
+            // Display the selected page and style the clicked link
+            document.getElementById(pageName).style.display = "block";
+            if (elmnt) {
+                elmnt.style.backgroundColor = color; // Apply the color to the clicked link
+                if (glow) {
+                    //elmnt.style.boxShadow = "0px 0px 15px #FFD369"; // Add glow effect
+                }
+            }
+    
+            // Update the hero text and image
+            const heroTitle = document.getElementById("hero-title");
+            const heroDescription = document.getElementById("hero-description");
+            const heroImage = document.querySelector(".hero #img");
+            if (heroContent[pageName]) {
+                heroTitle.innerHTML = heroContent[pageName].title;
+                heroDescription.innerHTML = heroContent[pageName].description;
+                heroImage.style.backgroundImage = `url('${heroContent[pageName].image}')`;
+                heroImage.style.backgroundPosition = heroContent[pageName].backgroundPosition;
+            }
+    
+            // Update the URL in the browser's address bar
+            const newUrl = `/${pageName}`;
+            history.pushState({ page: pageName }, "", newUrl);
+        }
+    
+        // Handle back/forward navigation
+        window.addEventListener("popstate", function (event) {
+            if (event.state && event.state.page) {
+                openPage(event.state.page, null, "#FFD369", false);
+            }
+        });
+    
+        // Default page
+        document.getElementById("homeLink").click();
+    </script>
+    
+    <!--Intersection Observer-->
+    <script type='module'>
+        function whenOnScreen(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationName = 'come-in';
+                }
+            });
+        }
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(whenOnScreen, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2,
+            });
+            
+            document.querySelectorAll('.onscroll').forEach(el => {
+                observer.observe(el);
+            });
+        } else {
+            window.addEventListener('scroll', () => {
+                document.querySelectorAll('.onscroll').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        if (!el.classList.contains('animated')) {
+                            el.style.animationName = 'come-in';
+                            el.classList.add('animated');
+                            el.addEventListener('animationend', () => {
+                                el.classList.remove('animated');
+                            }, { once: true });
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+    <!--Scroll function for hashing-->
+    <script type>
+        function Scroll(x) { 
+            window.scrollTo({ top: x, behavior: "smooth" }); 
+        };
+    </script>
+    <!--Navigational junk-->
+    <script type>
+        window.addEventListener('scroll', function() {
+            //if(window.scrollY)
+            
+            var scrollDistance = window.pageYOffset || window.scrollY || document.documentElement.scrollTop;
+            var underlay = document.getElementById('underlay');
+            if (scrollDistance >= 50) {
+                underlay.style.display = 'block';
+            }
+            if (scrollDistance <= 50) {
+                underlay.style.display = 'none';
+            }
+            //alert(scrollDistance)
+        });
+
+        function toggleMenu() {
+            const navLinks = document.getElementById("nav-links");
+            const body = document.body;
+            const hamburger = document.getElementById("hamburger");
+            const closeIcon = document.getElementById("close-icon");
+
+            // Toggle the mobile menu
+            if (navLinks.classList.contains("open")) {
+                navLinks.classList.remove("open");
+                body.classList.remove("no-scroll"); // Enable scrolling
+                hamburger.style.display = "block"; // Show hamburger icon
+                closeIcon.style.display = "none"; // Hide "X" icon
+            } else {
+                navLinks.classList.add("open");
+                body.classList.add("no-scroll"); // Disable scrolling
+                hamburger.style.display = "none"; // Hide hamburger icon
+                closeIcon.style.display = "block"; // Show "X" icon
+            }
+        }
+
+        // Close the mobile menu when a link is clicked
+        document.querySelectorAll("#nav-links li > a").forEach(link => {
+            link.addEventListener("click", (event) => {
+                const navLinks = document.getElementById("nav-links");
+                const body = document.body;
+
+                // Check if the link is a dropdown parent
+                if (link.nextElementSibling && link.nextElementSibling.tagName === "UL") {
+                    event.preventDefault(); // Prevent default behavior for dropdown parents
+                } else {
+                    // Close the menu for regular links (only for mobile menu)
+                    if (navLinks.classList.contains("open")) {
+                        navLinks.classList.remove("open");
+                        body.classList.remove("no-scroll"); // Enable scrolling
+                        document.getElementById("hamburger").style.display = "block"; // Show hamburger icon
+                        document.getElementById("close-icon").style.display = "none"; // Hide "X" icon
+                    }
+                }
+            });
+        });
+        </script>
+    <!--The Typewriter scripts-->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+    <script>
+        var typingOptions = {
+            strings: ["Software Developer", "Web Developer", "Tech Enthusiast", "Lifelong Learner"],
+            typeSpeed: 80,
+            backSpeed: 60,
+            loop: !0
+        }
+            new Typed('#typeCursor', typingOptions)
+    </script>
+    <script>
+        // Wait for the iframe to load
+        window.addEventListener('load', function () {
+            const iframe = document.querySelector('.iframe-class');
+            iframe.addEventListener('load', function () {
+                // Access the iframe's content
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+                // Find the "Today" button and simulate a click
+                const todayButton = iframeDocument.querySelector('button[aria-label="Today"]');
+                if (todayButton) {
+                    todayButton.click();
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownParents = document.querySelectorAll('nav ul li > a');
+            dropdownParents.forEach(link => {
+                const text = link.textContent.trim();
+                if (text.startsWith("About Us") || text.startsWith("Worship")) {
+                    link.classList.add('no-click');
+                }
+            });
+        });
+    </script>
+    <script>
+        const bibleVerses = [
+            { reference: "Jeremiah 50:34", text: "Their Redeemer is strong; the LORD of hosts is his name: he shall throughly plead their cause, that he may give rest to the land, and disquiet the inhabitants of Babylon." },
+            { reference: "Isaiah 54:8", text: "In a little wrath I hid my face from thee for a moment; but with everlasting kindness will I have mercy on thee, saith the LORD thy <b>Redeemer</b>." },
+            { reference: "Isaiah 47:4", text: "As for our Redeemer, the LORD of hosts is his name, the Holy One of Israel." },
+            { reference: "Isaiah 44:6", text: "Thus saith the LORD the King of Israel, and his <b>redeemer</b> the LORD of hosts; I am the first, and I am the last; and beside me there is no God." },
+            { reference: "I Peter 1:18-19", text: "Forasmuch as ye know that ye were not <b>redeemed</b> with corruptible things, as silver and gold, from your vain conversation received by tradition from your fathers; But with the precious blood of Christ, as of a lamb without blemish and without spot." },
+            { reference: "Luke 1:68", text: "Blessed be the Lord God of Israel; for he hath visited and <b>redeemed</b> his people." },
+            { reference: "Galatians 3:13", text: "Christ hath <b>redeemed</b> us from the curse of the law, being made a curse for us: for it is written, Cursed is every one that hangeth on a tree." },
+            { reference: "Revelation 5:9", text: "And they sung a new song, saying, Thou art worthy to take the book, and to open the seals thereof: for thou wast slain, and hast <b>redeemed</b> us to God by thy blood out of every kindred, and tongue, and people, and nation." }
+        ];
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const verseContainer = document.querySelector('.quote');
+            let currentVerseIndex = 0;
+
+            function updateVerse() {
+                // Get the current verse
+                const verse = bibleVerses[currentVerseIndex];
+                const boldedText = verse.text.replace(/redeemer/gi, '<b>redeemer</b>'); // Bold "redeemer"
+
+                // Update the content with fade-in animation
+                verseContainer.style.opacity = 0; // Start fade-out
+                verseContainer.style.transform = 'translateY(-20px) scale(1.1)'; // Start scale and move up
+                setTimeout(() => {
+                    verseContainer.innerHTML = `
+                        <span class="material-icons">format_quote</span>
+                        ${boldedText} <br> - ${verse.reference}
+                    `;
+                    verseContainer.style.opacity = 1; // Fade-in
+                    verseContainer.style.transform = 'translateY(0) scale(1)'; // Reset position and scale
+                }, 500);
+
+                // Move to the next verse
+                currentVerseIndex = (currentVerseIndex + 1) % bibleVerses.length;
+            }
+
+            // Start the rotation
+            updateVerse();
+            setInterval(updateVerse, 5000); // Change verse every 5 seconds
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const footer = document.querySelector('footer');
+            const columns = document.querySelectorAll('.footer-column');
+    
+            function adjustFooterColumns() {
+                const footerWidth = footer.offsetWidth;
+                const columnWidth = columns[0].offsetWidth;
+                const maxColumns = Math.floor(footerWidth / columnWidth);
+    
+                // Adjust the grid-template-columns dynamically
+                if (maxColumns >= columns.length) {
+                    footer.style.gridTemplateColumns = `repeat(${columns.length}, 1fr)`;
+                } else {
+                    footer.style.gridTemplateColumns = `repeat(${maxColumns}, 1fr)`;
+                }
+            }
+    
+            // Run on page load and window resize
+            adjustFooterColumns();
+            window.addEventListener('resize', adjustFooterColumns);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select all anchor tags
+            const links = document.querySelectorAll('a');
+    
+            // Add target="_blank" to each link except navigational and footer links
+            links.forEach(link => {
+                const isNavLink = link.closest('nav'); // Check if the link is inside a <nav> element
+                const isFooterLink = link.closest('footer'); // Check if the link is inside a <footer> element
+                if (!isNavLink && !isFooterLink) {
+                    link.setAttribute('target', '_blank');
+                }
+            });
+        });
+    </script>
+    <!--Handle form-->
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            alert("Thank you for your message! We'll get back to you soon.");
+            event.target.reset(); // Clear the form
+            return false;
+        }
+    </script>
+    <!--Add the onscroll class to all content text-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add .onscroll to all .content-content, .content-text, .leadership-section, .leadership-card inside <main>
+            document.querySelectorAll('main .content-content, main .content-text, main .leadership-section, main .leadership-card .bullet').forEach(el => {
+                el.classList.add('onscroll');
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('directions-btn');
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    const address = encodeURIComponent('1620 52nd St SW, Wyoming, MI 49519-9629');
+                    let url = '';
+                    const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+                    if (/android/i.test(ua)) {
+                        // Android: open in Google Maps app
+                        url = `geo:0,0?q=${address}`;
+                    } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+                        // iOS: open in Apple Maps app
+                        url = `http://maps.apple.com/?daddr=${address}`;
+                    } else {
+                        // Desktop or unknown: open in Google Maps in browser
+                        url = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+                    }
+
+                    // Try to open the app, fallback to browser if needed
+                    window.location.href = url;
+                });
+            }
+        });
+    </script>
 </html>
