@@ -433,6 +433,17 @@
                 background-position: center;
                 z-index: 2;
             }
+            #hero-overlay-2 {
+                position: absolute;
+                top: 4%;
+                left: 0;
+                width: 100%;
+                background-image: url('https://raw.githubusercontent.com/Arrow-programming/My-life-in-a-grapefruit/refs/heads/main/unnamed.png');
+                height: 100vh;
+                background-size: cover;
+                background-position: center;
+                z-index: 2;
+            }
             #hero-overlay-overlay {
                 position: absolute;
                 top: 60%;
@@ -485,11 +496,13 @@
             
 
             #icons {
+                position: relative;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 gap: 18px;
                 margin-top: 20px;
+                z-index: 20;
             }
 
             #icons a {
@@ -504,10 +517,10 @@
             }
 
             #icons i {
-                font-size: 32px;      /* Standardize icon size */
+                font-size: 32px;
                 width: 32px;
                 height: 32px;
-                color: #888;
+                color: #242424;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -521,22 +534,42 @@
                 filter: grayscale(100%) brightness(0.9);
                 transition: filter 0.3s;
                 display: block;
+                
             }
 
-            #icons a:hover i {
+           
+            #icons a:hover i,
+            #icons a:focus i {
                 color: #4F98CA !important;
+                box-shadow: none;
+            }
+            #icons a:hover img,
+            #icons a:focus img {
+                filter: grayscale(0%) brightness(1.1) sepia(1) hue-rotate(180deg) saturate(4) drop-shadow(0 0 4px #4F98CA);
+                transform: scale(1.15);
+            }
+            #icons a:hover,
+            #icons a:focus {
+                outline: none;
+            }
+            
+            #icons i,
+            #icons .material-icons,
+            #icons .material-symbols-outlined {
+                color: #242424 !important;
+                filter: none !important;
             }
 
-            #icons a:hover img {
-                filter: grayscale(0%) brightness(1) sepia(1) hue-rotate(180deg) saturate(4);
+            /* For images, use filter to approximate #242424 */
+            #icons img {
+                filter: brightness(0) saturate(100%) invert(13%) sepia(6%) saturate(0%) hue-rotate(346deg) brightness(98%) contrast(90%);
             }
-
 
     		.place {
     		    z-index: 15;
     		    width: 100%;
     		    height: 38%;
-    		    top: 70%;
+    		    top: 80%;
     		    position: absolute;
     		}
     		.place .material-symbols-outlined {
@@ -586,11 +619,18 @@
         </style>
         <!--Content-->
         <style>
-            content {
+            main {
                 position: absolute;
                 top: 100vh;
                 width: 100%;
-                height: 300%;
+                height: 1200%;
+            }
+           #txtbox h1 {
+                font-size: 2rem;
+                text-align: center;
+                margin-top: 40px;
+                margin-bottom: 20px;
+                color: #ff0909 !important;
             }
         </style>
     </head>
@@ -603,30 +643,34 @@
                         <li><a id="homeLink" class="tablink" onclick="openPage('home', this, '#FFD369', true); Scroll(0);">Home</a></li>
                         <li>
                             <!--About Us Directory-->
-                            <a>Dropdown 1 <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
+                            <a>About Us <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
                             <ul>
-                                <li><a onclick="openPage('WhoWeAre', this, '#FFD369', true); Scroll(0);">Navigation 1</a></li>
-                                <li><a onclick="openPage('DoctrinalStandards', this, '#FFD369', true); Scroll(0);">Navigation 2</a></li>
-                                <li><a onclick="openPage('OurLeadership', this, '#FFD369', true); Scroll(0);">Navigation 3</a></li>
+                                <li><a onclick="openPage('WhoWeAre', this, '#FFD369', true); Scroll(0);">Who We Are</a></li>
+                                <li><a onclick="openPage('DoctrinalStandards', this, '#FFD369', true); Scroll(0);">Doctrinal Standards</a></li>
+                                <li><a onclick="openPage('OurLeadership', this, '#FFD369', true); Scroll(0);">Our Leadership</a></li>
+                                <li><a onclick="openPage('Ministries', this, '#FFD369', true); Scroll(0);">Ministries</a></li>
+                                <li><a onclick="openPage('FAQs', this, '#FFD369', true); Scroll(0);">FAQs</a></li>
+                                <li><a href = "https://frcna.org/" target="_blank">Free Reformed Churches (FRCNA)</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a>Dropdown 2<span class="material-symbols-outlined">keyboard_arrow_down</span></a>
+                            <a>Worship <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
                             <ul>
-                                <li><a onclick="openPage('WorshipInfo', this, '#FFD369', true); Scroll(0);">Navigation 4</a></li>
-                                <li><a onclick="openPage('Sermons', this, '#FFD369', true); Scroll(0);">Navigation 5</a></li>
-                                <li><a onclick="openPage('Meditation', this, '#FFD369', true); Scroll(0);">Navvigation 6</a></li>
-                                <li><a onclick="openPage('LiveStream', this, '#FFD369', true); Scroll(0);">Navigation 7</a></li>
+                                <li><a onclick="openPage('WorshipInfo', this, '#FFD369', true); Scroll(0);">Worship Info</a></li>
+                                <li><a onclick="openPage('Sermons', this, '#FFD369', true); Scroll(0);">Sermons</a></li>
+                                <li><a onclick="openPage('Meditation', this, '#FFD369', true); Scroll(0);">Meditation</a></li>
+                                <li><a onclick="openPage('LiveStream', this, '#FFD369', true); Scroll(0);">Live Stream</a></li>
                             </ul>
                         </li>
-                        <li><a id="calendarLink" class="tablink" onclick="openPage('Calendar', this, '#FFD369', true); Scroll(0);">Nav 8</a></li>
-                        <li><a id="contactUsLink" class="tablink" onclick="openPage('ContactUs', this, '#FFD369', true); Scroll(0);">Nav 9</a></li>
-                        <li><a id="" class="tablink" href = "https://rfrc.breezechms.com/login" target = "_blank">Addition 10</a></li>
+                        <li><a id="calendarLink" class="tablink" onclick="openPage('Calendar', this, '#FFD369', true); Scroll(0);">Calendar</a></li>
+                        <li><a id="contactUsLink" class="tablink" onclick="openPage('ContactUs', this, '#FFD369', true); Scroll(0);">Contact Us</a></li>
+                        <li><a id="" class="tablink" href = "https://rfrc.breezechms.com/login" target = "_blank">Give Now</a></li>
                     </ul>
                 </nav>
         </header>   
         <hero>  
             <div id = "hero-underlay"></div>
+            <div id = "hero-overlay-2"></div>
             <div id = "hero-overlay"></div>
             <div id = "hero-overlay-overlay"></div>
             <div id = "txt">
@@ -659,16 +703,16 @@
             <div class = "place" style = "position: absolute;">
                 <span class="material-symbols-outlined" onclick = "Scroll(1000)">stat_minus_1</span>
             </div>
-
         </hero>
-        <content>
-            <section id = "section-1">
-                <div id = "txt-box">
-                    <h1>Hello!</h1>
-                    <h2>Lorem ipsum sit dom me amet sit dom me me amet sit dom</h2>
+        <main>
+            <section id = "About">
+                <div id = "txtbox">
+                    <h1>A bit about me</h1>
+                    <h2></h2>
+                    <p></p>
                 </div>
             </section>
-        </content>
+        </main>
     </body>
     <!--Page & Nav JS-->
     <script>
@@ -698,23 +742,32 @@
                 }
             }
     
+            // Update the hero text and image
+            const heroTitle = document.getElementById("hero-title");
+            const heroDescription = document.getElementById("hero-description");
+            const heroImage = document.querySelector(".hero #img");
+            if (heroContent[pageName]) {
+                heroTitle.innerHTML = heroContent[pageName].title;
+                heroDescription.innerHTML = heroContent[pageName].description;
+                heroImage.style.backgroundImage = `url('${heroContent[pageName].image}')`;
+                heroImage.style.backgroundPosition = heroContent[pageName].backgroundPosition;
+            }
+    
             // Update the URL in the browser's address bar
-            //const newUrl = `/${pageName}`;
-            //history.pushState({ page: pageName }, "", newUrl);
+            const newUrl = `/${pageName}`;
+            history.pushState({ page: pageName }, "", newUrl);
         }
-        
     
         // Handle back/forward navigation
         window.addEventListener("popstate", function (event) {
             if (event.state && event.state.page) {
-                openPage(event.state.page, null, "#4F98CA", false);
+                openPage(event.state.page, null, "#FFD369", false);
             }
         });
     
         // Default page
         document.getElementById("homeLink").click();
     </script>
-    
     <!--Intersection Observer-->
     <script type='module'>
         function whenOnScreen(entries) {
@@ -818,7 +871,7 @@
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
     <script>
         var typingOptions = {
-            strings: ["Software Developer", "Web Developer", "etc", "etc"],
+            strings: ["WebDev.", "Artist.", "Birder.", "Botanist.", "Chess Enthusiast.", "Game Dev", "Biologist.", "Fox lover."],
             typeSpeed: 80,
             backSpeed: 60,
             loop: !0
@@ -867,15 +920,6 @@
             });
         });
     </script>
-    <!--Handle form-->
-    <script>
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            alert("Thank you for your message! We'll get back to you soon.");
-            event.target.reset(); // Clear the form
-            return false;
-        }
-    </script>
     <!--Add the onscroll class to all content text-->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -883,6 +927,32 @@
             document.querySelectorAll('main .content-content, main .content-text, main .leadership-section, main .leadership-card .bullet').forEach(el => {
                 el.classList.add('onscroll');
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('directions-btn');
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    const address = encodeURIComponent('1620 52nd St SW, Wyoming, MI 49519-9629');
+                    let url = '';
+                    const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+                    if (/android/i.test(ua)) {
+                        // Android: open in Google Maps app
+                        url = `geo:0,0?q=${address}`;
+                    } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+                        // iOS: open in Apple Maps app
+                        url = `http://maps.apple.com/?daddr=${address}`;
+                    } else {
+                        // Desktop or unknown: open in Google Maps in browser
+                        url = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+                    }
+
+                    // Try to open the app, fallback to browser if needed
+                    window.location.href = url;
+                });
+            }
         });
     </script>
 </html>
