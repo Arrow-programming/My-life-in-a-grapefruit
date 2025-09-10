@@ -570,7 +570,7 @@
     		    z-index: 15;
     		    width: 100%;
     		    height: 38%;
-    		    top: 80%;
+    		    top: 15%;
     		    position: absolute;
     		}
     		.place .material-symbols-outlined {
@@ -620,14 +620,21 @@
         </style>
         <!--Content-->
         <style>
+            /*
+                Each section is 100vh tall
+                and 100vw wide. 
+                The main element is 
+                pushed down 40vh to 
+                account for the hero image. 
+            */
+
             main {
                 position: relative;
                 width: 100vw;
                 display: flex;
                 flex-direction: column;
-                top: 100vh;
+                top: 40vh;
             }
-            
             
             section {
                 position: relative;
@@ -636,13 +643,13 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: red;
+                background-color: rgb(112, 102, 102);
                 position: relative; /* or just omit, default is fine */
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
             }
-
+            
             section #textbox {
                 position: relative;
                 margin: 0;
@@ -651,21 +658,74 @@
                 text-align: center;
                 padding: 0;
                 box-sizing: border-box;
+                background: rgba(255, 255, 255, 0.2);
+                -webkit-backdrop-filter: blur(5px);
+                backdrop-filter: blur(5px);
+                border-radius: 20px;*/
             }
 
-            section #textbox h1 {
-                font-size: 4rem;
-                
-                margin-top: 40px;
-                margin-bottom: 20px;
-                color: #242424;
+            
+            #About {
+                position: relative;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: rgb(255, 255, 255); /* Match canvas background */
+                overflow: hidden;
+                margin: 0;
+                padding: 0;
             }
-            section #textbox h2 {
-                font-size: 2.5rem;
-                margin-top: 40px;
+            #aboutCanvas {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 1000px !important;
+                height: 1000px !important;
+                min-width: 1000px;
+                min-height: 1000px;
+                max-width: 1000px;
+                max-height: 1000px;
+                display: block;
+                margin: 0;
+                background-color: rgb(255, 255, 255);
+                z-index: 1;
+                pointer-events: none;
+                box-sizing: border-box;
+                border: none;
+            }
+            #About #textbox {
+                position: relative;
+                z-index: 2;
+                margin: 0 auto;
+                margin-left: 50px;
+                max-width: 700px;
+                width: 100%;
+                text-align: left;
+                background: rgba(255,255,255,0.2);
+                -webkit-backdrop-filter: blur(5px);
+                backdrop-filter: blur(5px);
+                border-radius: 50px;
+                padding: 2rem 1rem;
+                box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            }
+            #About #textbox h1 {
+                font-size: 4rem;
+                margin-top: 0;
                 margin-bottom: 20px;
+                margin-left: 30px;
                 color: #4F98CA;
             }
+            #About #textbox h2 {
+                font-size: 2rem;
+                margin-top: 0;
+                margin-bottom: 20px;
+                margin-left: 30px;
+                color: #242424;
+            }
+            
         </style>
     </head>
     <body>
@@ -740,7 +800,9 @@
         </div>
         
         <main>
+            
             <section id = "About">
+                <canvas id="aboutCanvas" width="1000" height="1000"></canvas>
                 <div id = "textbox">
                     <h1>First...</h1>
                     <h2>A bit about me</h2>
@@ -964,29 +1026,172 @@
             });
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const btn = document.getElementById('directions-btn');
-            if (btn) {
-                btn.addEventListener('click', function () {
-                    const address = encodeURIComponent('1620 52nd St SW, Wyoming, MI 49519-9629');
-                    let url = '';
-                    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    <!--Canvas Script-->
+    <script type="module">
+        /*
+            HTML Canvas is the best
+            thing that ever happened to me. 
+            Learn it.
+        */
+        
+        //This is a cool trick
+        function resizeCanvasToDisplaySize(canvas) {
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+            if (canvas.width !== width || canvas.height !== height) {
+                canvas.width = width;
+                canvas.height = height;
+                return true;
+            }
+            return false;
+        }
 
-                    if (/android/i.test(ua)) {
-                        // Android: open in Google Maps app
-                        url = `geo:0,0?q=${address}`;
-                    } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-                        // iOS: open in Apple Maps app
-                        url = `http://maps.apple.com/?daddr=${address}`;
-                    } else {
-                        // Desktop or unknown: open in Google Maps in browser
-                        url = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+        function initializeCanvas(canvasId, COLOR) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext("2d");
+
+            let numSquares = 100;
+            let sqs = [];
+            let attractor = { x: 800, y: canvas.height / 2 };
+
+            function resize() {
+                resizeCanvasToDisplaySize(canvas);
+                //attractor.x = canvas.width / 2;
+                //attractor.y = canvas.height / 2;
+                createCircles();
+            }
+            window.addEventListener('resize', resize);
+
+            function createCircles() {
+                sqs = [];
+                for (let i = 0; i < numSquares; i++) {
+                    const x = Math.random() * (canvas.width - 20) + 10;
+                    const y = Math.random() * (canvas.height - 20) + 10;
+                    sqs.push(new Sq(x, y));
+                }
+            }
+
+            // Global speed factor to slow down all squares
+            const globalSpeedFactor = 0.3; 
+
+            class Sq {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+
+                    this.radius = Math.random() * 5 + 3; // Random radius between 3 and 8
+
+                    const dx = attractor.x - this.x;
+                    const dy = attractor.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const speed = (this.radius / 3) * globalSpeedFactor; // Speed proportional to the radius and global speed factor
+
+                    this.v = {
+                        x: (dx / distance) * speed,
+                        y: (dy / distance) * speed,
+                    };
+
+                    this.targetV = { ...this.v };
+                    this.hasFill = Math.random() < 0.5; // Randomly decide if the circle has a fill
+                }
+
+                checkCollisionWithCanvas() {
+                    const padding = 100;
+                    if (this.x < this.radius + padding || this.x > canvas.width - this.radius - padding || this.y < this.radius + padding || this.y > canvas.height - this.radius - padding) {
+                        const dx = attractor.x - this.x;
+                        const dy = attractor.y - this.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        const speed = (this.radius / 3) * globalSpeedFactor; // Speed proportional to the radius and global speed factor
+
+                        this.targetV.x = (dx / distance) * speed;
+                        this.targetV.y = (dy / distance) * speed;
                     }
+                }
+                
+                //lets make everything look more haywire :D
+                checkCollisionWithOthers() {
+                    for (let other of sqs) {
+                        if (other !== this) {
+                            const dx = other.x - this.x;
+                            const dy = other.y - this.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            const minDist = this.radius + other.radius;
+                            if (distance < minDist && distance > 0) {
+                                // Resolve overlap
+                                const overlap = 0.5 * (minDist - distance);
+                                const nx = dx / distance;
+                                const ny = dy / distance;
+                                this.x -= overlap * nx;
+                                this.y -= overlap * ny;
+                                other.x += overlap * nx;
+                                other.y += overlap * ny;
 
-                    // Try to open the app, fallback to browser if needed
-                    window.location.href = url;
-                });
+                                // Calculate velocities along the normal
+                                const dvx = this.v.x - other.v.x;
+                                const dvy = this.v.y - other.v.y;
+                                const dot = dvx * nx + dvy * ny;
+                                if (dot < 0) { // Only resolve if moving towards each other
+                                    // Elastic collision (equal mass)
+                                    this.v.x -= dot * nx;
+                                    this.v.y -= dot * ny;
+                                    other.v.x += dot * nx;
+                                    other.v.y += dot * ny;
+                                }
+                            }
+                        }
+                    }
+                }
+            
+                update() {
+                    this.x += this.v.x;
+                    this.y += this.v.y;
+
+                    this.checkCollisionWithCanvas();
+                    // Accurate collision resolution
+                    this.checkCollisionWithOthers();
+
+                    // No velocity smoothing for realistic bounce
+                    // Clamp to canvas bounds
+                    this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
+                    this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
+                }
+
+                draw() {
+                    if (this.hasFill) {
+                        ctx.fillStyle = COLOR;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else {
+                        ctx.strokeStyle = COLOR;
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            resize(); // Initial sizing and circle creation
+
+            const render = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i in sqs) {
+                    sqs[i].update();
+                }
+                for (let i in sqs) {
+                    sqs[i].draw();
+                }
+            };
+            setInterval(render, 1000 / 60);
+        }
+        
+        // Initialize canvases for all pages
+        document.addEventListener("DOMContentLoaded", () => {
+            const aboutCanvas = document.getElementById("aboutCanvas");
+            if (aboutCanvas) {
+                initializeCanvas("aboutCanvas", "#50D890");
             }
         });
     </script>
