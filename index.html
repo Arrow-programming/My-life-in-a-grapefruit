@@ -682,12 +682,12 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                width: 1000px !important;
-                height: 1000px !important;
+                width: 2000px !important;
+                height: 2000px !important;
                 min-width: 1000px;
                 min-height: 1000px;
-                max-width: 1000px;
-                max-height: 1000px;
+                max-width: 5000px;
+                max-height: 5000px;
                 display: block;
                 margin: 0;
                 background-color: rgb(255, 255, 255);
@@ -701,9 +701,10 @@
                 z-index: 2;
                 margin: 0 auto;
                 margin-left: 50px;
-                max-width: 700px;
+                margin-right: 50px;
+                max-width: 1500px;
                 width: 100%;
-                text-align: left;
+                text-align: center;
                 background: rgba(255,255,255,0.2);
                 -webkit-backdrop-filter: blur(5px);
                 backdrop-filter: blur(5px);
@@ -715,14 +716,18 @@
                 font-size: 4rem;
                 margin-top: 0;
                 margin-bottom: 20px;
-                margin-left: 30px;
                 color: #4F98CA;
             }
             #About #textbox h2 {
                 font-size: 2rem;
                 margin-top: 0;
                 margin-bottom: 20px;
-                margin-left: 30px;
+                color: #50D890;
+            }
+            #About #textbox p {
+                font-size: 1.3rem;
+                margin-top: 0;
+                margin-bottom: 20px;
                 color: #242424;
             }
             
@@ -804,9 +809,9 @@
             <section id = "About">
                 <canvas id="aboutCanvas" width="1000" height="1000"></canvas>
                 <div id = "textbox">
-                    <h1>First...</h1>
+                    <h1>First</h1>
                     <h2>A bit about me</h2>
-                    <p></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
             </section>
         </main>
@@ -1050,9 +1055,10 @@
             const canvas = document.getElementById(canvasId);
             const ctx = canvas.getContext("2d");
 
-            let numSquares = 100;
+            let numSquares = 500;
             let sqs = [];
-            let attractor = { x: 800, y: canvas.height / 2 };
+            const rect = canvas.getBoundingClientRect();
+            let attractor = { x: rect.width / 2, y: rect.height /2 - 200, };
 
             function resize() {
                 resizeCanvasToDisplaySize(canvas);
