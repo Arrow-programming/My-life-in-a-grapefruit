@@ -108,7 +108,8 @@
                 display: flex;
                 justify-content: center;
                 position: fixed;
-                top: 10px;
+                top: 0px;
+                padding-top: 10px;
                 width: 100%;
                 z-index: 100;
                 user-select: none;
@@ -400,7 +401,7 @@
         <!--Hero-->
         <style>
             /* Hero */
-            hero {
+            #hero {
                 background-image: url('https://wallpapercave.com/wp/wp4570765.jpg');
                 height: 100vh;
                 background-size: cover;
@@ -411,7 +412,7 @@
                 justify-content: center;
                 align-items: center;
                 color: white;
-                /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);*/
+                box-sizing: border-box;
             }
             #hero-underlay {
                 position: absolute;
@@ -454,25 +455,25 @@
                 z-index: 3;
             }
 
-            hero #txt {
+            #hero #txt {
                 position: relative;
                 z-index: 4;
                 text-align: center;
                 left: 0;
-                top: 0%
+                top: 50%
             }
-            hero #txt h1 {
+            #hero #txt h1 {
                 font-size: 6rem;
                 margin: 0;
                 color: #242424;
             }
-            hero #txt h2 {
+            #hero #txt h2 {
                 font-size: 2rem;
                 margin: 0;
                 font-weight: 400;
                 color: #242424;
             }
-            hero #txt h3 {
+            #hero #txt h3 {
                 font-size: 2rem;
                 margin: 0;
                 font-weight: 400;
@@ -620,17 +621,50 @@
         <!--Content-->
         <style>
             main {
-                position: absolute;
+                position: relative;
+                width: 100vw;
+                display: flex;
+                flex-direction: column;
                 top: 100vh;
-                width: 100%;
-                height: 1200%;
             }
-           #txtbox h1 {
-                font-size: 2rem;
+            
+            
+            section {
+                position: relative;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: red;
+                position: relative; /* or just omit, default is fine */
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            section #textbox {
+                position: relative;
+                margin: 0;
+                max-width: 900px;
+                width: 100%;
                 text-align: center;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            section #textbox h1 {
+                font-size: 4rem;
+                
                 margin-top: 40px;
                 margin-bottom: 20px;
-                color: #ff0909 !important;
+                color: #242424;
+            }
+            section #textbox h2 {
+                font-size: 2.5rem;
+                margin-top: 40px;
+                margin-bottom: 20px;
+                color: #4F98CA;
             }
         </style>
     </head>
@@ -668,7 +702,7 @@
                     </ul>
                 </nav>
         </header>   
-        <hero>  
+        <div id="hero">  
             <div id = "hero-underlay"></div>
             <div id = "hero-overlay-2"></div>
             <div id = "hero-overlay"></div>
@@ -703,12 +737,13 @@
             <div class = "place" style = "position: absolute;">
                 <span class="material-symbols-outlined" onclick = "Scroll(1000)">stat_minus_1</span>
             </div>
-        </hero>
+        </div>
+        
         <main>
             <section id = "About">
-                <div id = "txtbox">
-                    <h1>A bit about me</h1>
-                    <h2></h2>
+                <div id = "textbox">
+                    <h1>First...</h1>
+                    <h2>A bit about me</h2>
                     <p></p>
                 </div>
             </section>
