@@ -26,15 +26,15 @@
                 padding: 0;
                 font-family: 'Lato', sans-serif;
                 font-size: 16px;
-                display: flex;
-                flex-direction: column;
-                min-height: 100vh;
                 overflow-x: hidden;
             }
+            html, body {
+                height: 100%;
+                min-height: 100vh;
+            }
             main {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
+                width: 100vw;
+                display: block;
             }
             
             /* 
@@ -402,12 +402,12 @@
         <style>
             /* Hero */
             #hero {
+                position: relative; /* or just omit, default is fine */
                 background-image: url('https://wallpapercave.com/wp/wp4570765.jpg');
-                height: 100vh;
+                height: calc(100vh + 40vh);;
                 background-size: cover;
                 background-position: center;
                 background-attachment: fixed;
-                position: relative;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -445,27 +445,41 @@
                 background-position: center;
                 z-index: 2;
             }
+            #hero-overlay-3 {
+                position: absolute;
+                top: 20%;
+                left: -10%;
+                width: 100%;
+                background-image: url('https://raw.githubusercontent.com/Arrow-programming/My-life-in-a-grapefruit/refs/heads/main/unnamed.png');
+                height: 100vh;
+                background-size: cover;
+                background-position: center;
+                z-index: 2;
+            }
             #hero-overlay-overlay {
                 position: absolute;
-                top: 60%;
+                top: 69%;
                 left: 0;
                 width: 100%;
-                height: 40%;
-                background-color: rgba(255, 255, 255);
-                z-index: 3;
+                height: 8%;
+                background-color: rgba(255, 255, 255, 1);
+                /* Only bottom shadow: offset-y is positive, offset-x is 0 */
+                box-shadow: 0 30px 40px -10px rgba(0, 0, 0, 0.35);
+                z-index: 21;
             }
 
             #hero #txt {
                 position: relative;
-                z-index: 4;
+                z-index: 20; /* higher than #hero-overlay-overlay */
                 text-align: center;
                 left: 0;
-                top: 50%
+                top: 50%;
             }
             #hero #txt h1 {
                 font-size: 6rem;
                 margin: 0;
                 color: #242424;
+                
             }
             #hero #txt h2 {
                 font-size: 2rem;
@@ -484,7 +498,6 @@
                 display: inline; /* Make the div behave like an inline element */
                 color: #5ec49d;
                 text-align: center;
-                overflow: hidden;
                 margin: 0; /* Remove any default margin */
                 padding: 0; /* Remove any default padding */
             }
@@ -570,11 +583,11 @@
     		    z-index: 15;
     		    width: 100%;
     		    height: 38%;
-    		    top: 15%;
+    		    top: 6%;
     		    position: absolute;
     		}
     		.place .material-symbols-outlined {
-			    overflow: hidden; 
+			    
 			    color: #50D890; 
 			    font-size: 7rem; 
 			    text-shadow: 0px 0px 3px #50D890; 
@@ -633,18 +646,17 @@
                 width: 100vw;
                 display: flex;
                 flex-direction: column;
-                top: 40vh;
+                top: 30vh;
             }
-            
+                        
             section {
                 position: relative;
                 width: 100vw;
-                height: 100vh;
+                min-height: 60vh; /* or whatever minimum you want */
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: rgb(112, 102, 102);
-                position: relative; /* or just omit, default is fine */
+                background-color: rgb(255, 255, 255);
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
@@ -705,7 +717,7 @@
                 max-width: 1500px;
                 width: 100%;
                 text-align: center;
-                background: rgba(255,255,255,0.2);
+                background: rgba(255, 255, 255, 0.2);
                 -webkit-backdrop-filter: blur(5px);
                 backdrop-filter: blur(5px);
                 border-radius: 50px;
@@ -742,34 +754,31 @@
                         <li><a id="homeLink" class="tablink" onclick="openPage('home', this, '#FFD369', true); Scroll(0);">Home</a></li>
                         <li>
                             <!--About Us Directory-->
-                            <a>About Us <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
+                            <a>About Me <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
                             <ul>
-                                <li><a onclick="openPage('WhoWeAre', this, '#FFD369', true); Scroll(0);">Who We Are</a></li>
-                                <li><a onclick="openPage('DoctrinalStandards', this, '#FFD369', true); Scroll(0);">Doctrinal Standards</a></li>
-                                <li><a onclick="openPage('OurLeadership', this, '#FFD369', true); Scroll(0);">Our Leadership</a></li>
-                                <li><a onclick="openPage('Ministries', this, '#FFD369', true); Scroll(0);">Ministries</a></li>
-                                <li><a onclick="openPage('FAQs', this, '#FFD369', true); Scroll(0);">FAQs</a></li>
-                                <li><a href = "https://frcna.org/" target="_blank">Free Reformed Churches (FRCNA)</a></li>
+                                <li><a onclick="openPage('WhoWeAre', this, '#FFD369', true); Scroll(0);">#1</a></li>
+                                <li><a onclick="openPage('DoctrinalStandards', this, '#FFD369', true); Scroll(0);">#2</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a>Worship <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
+                            <a>My Interests <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
                             <ul>
-                                <li><a onclick="openPage('WorshipInfo', this, '#FFD369', true); Scroll(0);">Worship Info</a></li>
-                                <li><a onclick="openPage('Sermons', this, '#FFD369', true); Scroll(0);">Sermons</a></li>
-                                <li><a onclick="openPage('Meditation', this, '#FFD369', true); Scroll(0);">Meditation</a></li>
-                                <li><a onclick="openPage('LiveStream', this, '#FFD369', true); Scroll(0);">Live Stream</a></li>
+                                <li><a onclick="openPage('WorshipInfo', this, '#FFD369', true); Scroll(0);">#1</a></li>
+                                <li><a onclick="openPage('Sermons', this, '#FFD369', true); Scroll(0);">#2</a></li>
+                                <li><a onclick="openPage('Meditation', this, '#FFD369', true); Scroll(0);">#3</a></li>
+                                <li><a onclick="openPage('LiveStream', this, '#FFD369', true); Scroll(0);">#4</a></li>
                             </ul>
                         </li>
-                        <li><a id="calendarLink" class="tablink" onclick="openPage('Calendar', this, '#FFD369', true); Scroll(0);">Calendar</a></li>
-                        <li><a id="contactUsLink" class="tablink" onclick="openPage('ContactUs', this, '#FFD369', true); Scroll(0);">Contact Us</a></li>
-                        <li><a id="" class="tablink" href = "https://rfrc.breezechms.com/login" target = "_blank">Give Now</a></li>
+                        <li><a id="calendarLink" class="tablink" onclick="openPage('Calendar', this, '#FFD369', true); Scroll(0);">Special Link</a></li>
+                        <li><a id="contactUsLink" class="tablink" onclick="openPage('ContactUs', this, '#FFD369', true); Scroll(0);">Super Link</a></li>
+                        <li><a id="" class="tablink" href = "https://rfrc.breezechms.com/login" target = "_blank">Donate</a></li>
                     </ul>
                 </nav>
         </header>   
         <div id="hero">  
             <div id = "hero-underlay"></div>
             <div id = "hero-overlay-2"></div>
+            <div id = "hero-overlay-3"></div>
             <div id = "hero-overlay"></div>
             <div id = "hero-overlay-overlay"></div>
             <div id = "txt">
@@ -812,6 +821,15 @@
                     <h1>First</h1>
                     <h2>A bit about me</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </section>
+            <section id="WebDev">
+                <div id="textbox">
+                    <h1>Web Developer</h1>
+                    <h2>Building for the Web</h2>
+                    <p>
+                        I love creating interactive, beautiful, and accessible web experiences. From responsive layouts to dynamic JavaScript, I enjoy solving problems and bringing ideas to life in the browser. Whether it's a personal project or a collaborative effort, I strive to write clean, maintainable code and keep learning new technologies.
+                    </p>
                 </div>
             </section>
         </main>
