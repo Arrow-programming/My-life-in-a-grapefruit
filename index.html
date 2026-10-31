@@ -856,6 +856,17 @@ If you are interested in contacting me feel free to reach out via GitHub :)
             transform: none;
         }
 
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .65s ease,transform .65s cubic-bezier(.22,.61,.36,1);
+        }
+
+        .scroll-reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .sh {
             display: flex;
             align-items: center;
@@ -1190,6 +1201,11 @@ If you are interested in contacting me feel free to reach out via GitHub :)
             * {
             animation: none!important;
             transition: none!important;
+            }
+
+            .scroll-reveal {
+                opacity: 1;
+                transform: none;
             }
 
             html {
@@ -2671,6 +2687,23 @@ try {
         const B = '#4F98CA';
         const W = '#e6edf3';
         const still = matchMedia('(prefers-reduced-motion:reduce)').matches;
+        const rv = new IntersectionObserver(es => es.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('in');
+                rv.unobserve(e.target);
+            }
+        }), { threshold: .1 });
+
+        function revealOnScroll(elements) {
+            elements.forEach(e => {
+                e.classList.add('scroll-reveal');
+                if (still) {
+                    e.classList.add('in');
+                } else {
+                    rv.observe(e);
+                }
+            });
+        }
 
         /* Background shapes with parallax */
         (function () {
@@ -2802,6 +2835,7 @@ try {
             $('#all').innerHTML = L.length
                 ? L.map(card).join('')
                 : '<p class="sub">No projects match that search.</p>';
+            revealOnScroll($$('#all .cb'));
             $('#cnt').textContent = L.length + ' of ' + PROJECTS.length + ' projects';
         }
 
@@ -2956,10 +2990,16 @@ try {
             $('#linkbox').innerHTML = LINKS
                 .map(l => `<a class="ic lc" href="${l[1]}" target="_blank" rel="noopener"><span class="li">${im(l)}</span><div><h4>${l[0]}</h4><p>${l[3]}</p></div></a>`)
                 .join('');
+            revealOnScroll($$('#linkbox .lc > div'));
             $('#fl').innerHTML = LINKS
                 .map(l => `<a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a>`)
                 .join('');
         })();
+        revealOnScroll($$(
+            '.page:not(#home) > h2, .page:not(#home) > .sub, ' +
+            '#about > .sh, #about .facts .fact, #about .blocks .block, ' +
+            '#projects .bar, #projects #cnt'
+        ));
         /* Scrolling pushes the triangles away from the title */
         function scrollFx() {
             const k = scrollY * .4;
@@ -3100,13 +3140,7 @@ try {
         document.addEventListener('visibilitychange', begin);
 
         /* Reveal sections, support keyboard navigation, and return to the top */
-        const rv = new IntersectionObserver(es => es.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('in');
-                rv.unobserve(e.target);
-            }
-        }), { threshold: .1 });
-        $$('.hs').forEach(e => rv.observe(e));
+        revealOnScroll($$('.hs'));
         document.addEventListener('keydown', e => {
             if (e.key === 'Enter' && e.target.matches('[data-p],#top')) {
                 e.target.click();
