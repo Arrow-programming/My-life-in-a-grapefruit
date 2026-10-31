@@ -1,1297 +1,3126 @@
 <!DOCTYPE html>
 <!--
 
+Created by Paul Vanderboon
+Licensed. All code is owned by its respective author by the DMCA
+
+If you are interested in contacting me feel free to reach out via GitHub :)
 -->
-<html>
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        
-        <link rel="icon" href="https://avatars.githubusercontent.com/u/148399628?v=4" type="image/x-icon">
-        <link rel="apple-touch-icon" href="https://frcna.org/static/img/frc-logo-260px.webp">
-        <link rel="manifest" href="/manifest.json">
-        <title>Grapefruit</title>
-        <style>
-            
-            /*
-                I like to copy and paste 
-                a lot of this CSS everytime 
-                I make a website. 
-                Having some basic utilites 
-                done is pretty helpful. 
-            */
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Paul Vanderboon | Portfolio</title>
+    <meta name="description" content="Portfolio of Paul Vanderboon">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,8 94,88 6,88' fill='none' stroke='%2350D890' stroke-width='10'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0d1117;
+            --panel: #161b22;
+            --line: #30363d;
+            --tx: #e6edf3;
+            --mu: #9aa4b0;
+            --g: #50D890;
+            --b: #4F98CA;
+            --glass: rgba(22,27,34,.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--tx);
+            font: 400 17px/1.65 'Lato',system-ui,sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--b);
+            outline-offset: 3px;
+        }
+
+        ::selection {
+            background: rgba(79,152,202,.4);
+        }
+        /* grain + shapes */
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 60;
+            opacity: .09;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        #bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #bg svg {
+            position: absolute;
+        }
+        /* nav: transparent, dropdowns, blurred bar after scrolling */
+
+        #under {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            z-index: 49;
+            background: rgba(13,17,23,.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 0 15px rgba(0,0,0,.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        #under.on {
+            opacity: 1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding-top: 10px;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 3px 5px;
+            display: flex;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        nav li {
+            margin: 0 5px;
+            position: relative;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            color: var(--tx);
+        }
+
+        nav a:hover {
+            background: var(--b);
+            color: #fff;
+        }
+
+        nav a.on {
+            color: var(--g);
+            text-shadow: 0 0 14px rgba(80,216,144,.6);
+        }
+
+        .ch {
+            width: 7px;
+            height: 7px;
+            border: solid currentColor;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin: -3px 0 0 10px;
+        }
+
+        nav li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            flex-direction: column;
+            min-width: 200px;
+            padding: 6px;
+            background: rgba(22,27,34,.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--line);
+            box-shadow: 0 8px 30px rgba(0,0,0,.5);
+            border-radius: 10px;
+        }
+
+        nav li:hover>ul,nav li:focus-within>ul {
+            display: flex;
+        }
+
+        nav li li {
+            margin: 0;
+        }
+
+        nav li li a {
+            border-radius: 6px;
+            padding: 9px 12px;
+        }
+
+        nav li li a:hover {
+            background: rgba(255,255,255,.1);
+            color: var(--tx);
+        }
+
+        #burger {
+            display: none;
+            pointer-events: auto;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 70;
+            background: rgba(22,27,34,.8);
+            color: var(--tx);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            font-size: 24px;
+            padding: 2px 14px;
+            cursor: pointer;
+        }
+
+        @media(max-width:768px) {
+
+            #burger {
+            display: block;
+            }
+
+            nav>ul {
+            display: none;
+            }
+
+            nav.open>ul {
+            display: flex;
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 70px;
+            overflow-y: auto;
+            background: rgba(13,17,23,.97);
+            }
+
+            nav.open a {
+            font-size: 1.5rem;
+            justify-content: center;
+            }
+
+            nav li {
+            margin: 0;
+            text-align: center;
+            }
+
+            .ch {
+            display: none;
+            }
+
+            nav li ul {
+            display: flex;
+            position: static;
+            min-width: 0;
+            padding: 0;
+            background: none;
+            border: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+            }
+
+            nav li li a {
+            font-size: 1.2rem;
+            color: var(--b);
+            padding: 6px 0;
+            }
+        }
+        /* pages */
+
+        .page {
+            display: none;
+            position: relative;
+            z-index: 2;
+            padding: 110px 6vw 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .page.on {
+            display: block;
+            animation: in .5s ease both;
+        }
+
+        #home {
+            padding-top: 0;
+            max-width: 1300px;
+        }
+
+        #home.on {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes in {
+
+            from {
+            opacity: 0;
+            transform: translateY(10px);
+            }
+        }
+
+        h2 {
+            font-size: clamp(1.8rem,4vw,2.6rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 6px;
+            color: var(--b);
+            text-shadow: 0 0 28px rgba(79,152,202,.4);
+        }
+
+        .sub {
+            color: var(--mu);
+            margin-bottom: 28px;
+            max-width: 60ch;
+        }
+        /* hero */
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            align-items: center;
+            gap: 10px;
+            padding-top: 70px;
+        }
+
+        .hero>div:first-child {
+            position: relative;
+            z-index: 3;
+        }
+
+        .hero h3 {
+            font-weight: 400;
+            font-size: 1.5rem;
+            color: var(--mu);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem,8vw,6.2rem);
+            font-weight: 900;
+            line-height: 1.02;
+            margin: 6px 0 14px;
+            background: linear-gradient(90deg,#fff 0%,var(--g) 55%,var(--b));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero h1,.hero h3,.nm {
+            width: fit-content;
+        }
+
+        .nm {
+            filter: drop-shadow(0 0 22px rgba(80,216,144,.3));
+        }
+
+        .hero .role {
+            font-size: 1.5rem;
+            min-height: 2.2rem;
+        }
+
+        #ty {
+            color: var(--g);
+            text-shadow: 0 0 16px rgba(80,216,144,.55);
+        }
+
+        .cur {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: var(--g);
+            vertical-align: -3px;
+            margin-left: 3px;
+            animation: bl 1s steps(2) infinite;
+        }
+
+        @keyframes bl {
+
+            50% {
+            opacity: 0;
+            }
+        }
+
+        .btns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: var(--panel);
+            cursor: pointer;
+            font: 700 1rem 'Lato',sans-serif;
+            color: var(--tx);
+        }
+
+        .btn.p {
+            background: var(--g);
+            border-color: var(--g);
+            color: #06140c;
+            box-shadow: 0 0 24px rgba(80,216,144,.35);
+        }
+
+        .btn:hover {
+            border-color: var(--b);
+            box-shadow: 0 0 20px rgba(79,152,202,.4);
+        }
+
+        @media(max-width:860px) {
+
+            .hero {
+            grid-template-columns: 1fr;
+            padding-top: 90px;
+            }
+        }
+
+        .ico {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 11px;
+            margin: 16px 0 24px;
+        }
+
+        .ico a {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(22,27,34,.8);
+            border: 1px solid var(--line);
+            color: var(--mu);
+            font-weight: 700;
+        }
+
+        .ico img,.ico svg {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            filter: grayscale(1) brightness(1.2);
+            opacity: .75;
+        }
+
+        .ico a:hover {
+            border-color: var(--b);
+            color: var(--g);
+            transform: translateY(-3px);
+            box-shadow: 0 0 22px rgba(79,152,202,.5);
+        }
+
+        .ico a:hover img {
+            filter: none;
+            opacity: 1;
+        }
+        /* flying triangles (from the Team Arrow page), crash-landing title, shake */
+
+        .hold .hero h1,.hold .hero h3,.hold .role,.hold .ico,.hold .btns,.hold #tris {
+            visibility: hidden;
+        }
+
+        #tris {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: calc(50% - 50vw);
+            width: 100vw;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+            --u: calc(min(100vw,100vh)/600);
+        }
+
+        .sw {
+            position: absolute;
+        }
+
+        .tri {
+            position: absolute;
+            left: 0;
+            top: 0;
+            aspect-ratio: 1;
+            width: calc(var(--s)*var(--k,1)*var(--u));
+            transform: rotate(var(--r));
+        }
+
+        .tri.b {
+            --k: .95;
+        }
+
+        .tri svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .hero.go .tri {
+            animation: fly .8s cubic-bezier(.21,.61,.35,1) var(--d) backwards;
+        }
+
+        .hero.go .tri svg {
+            animation: bob var(--bd) ease-in-out calc(var(--d) + .8s) infinite alternate;
+        }
+
+        .hero.go h1 {
+            animation: crash .8s cubic-bezier(.21,.61,.35,1) both;
+        }
+
+        .hero.go h3 {
+            animation: crash .8s cubic-bezier(.21,.61,.35,1) .2s both;
+        }
+
+        .hero.go .role {
+            animation: fade .7s ease .9s backwards;
+        }
+
+        .hero.go .ico a,.hero.go .btn {
+            animation: rise .7s cubic-bezier(.22,.61,.36,1) calc(1s + var(--i,0)*70ms) backwards;
+        }
+
+        @keyframes fade {
+
+            from {
+            opacity: 0;
+            }
+        }
+
+        @keyframes rise {
+
+            from {
+            opacity: 0;
+            transform: translateY(10px);
+            }
+        }
+
+        @keyframes crash {
+
+            0% {
+            opacity: 0;
+            transform: scale(10) translateY(-50px);
+            filter: blur(10px);
+            }
+
+            70% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+            }
+
+            75% {
+            opacity: 1;
+            transform: translate(-2px,2px);
+            }
+
+            80% {
+            transform: translate(2px,-2px);
+            }
+
+            85% {
+            transform: translate(-1px,1px);
+            }
+
+            90% {
+            transform: translate(1px,-1px);
+            }
+
+            100% {
+            opacity: 1;
+            transform: translate(0,0);
+            }
+        }
+
+        @keyframes fly {
+
+            0% {
+            transform: translate(var(--sx),var(--sy)) scale(0) rotate(0);
+            opacity: 0;
+            }
+
+            70% {
+            transform: translate(0,0) scale(1.1) rotate(var(--r));
+            opacity: 1;
+            }
+
+            100% {
+            transform: translate(0,0) scale(1) rotate(var(--r));
+            }
+        }
+
+        @keyframes bob {
+
+            to {
+            transform: translateY(calc(var(--s)*-.05*var(--u)));
+            }
+        }
+
+        @keyframes shk {
+
+            0%,100% {
+            translate: 0 0;
+            }
+
+            20% {
+            translate: calc(var(--sh)*-1px) calc(var(--sh)*2px);
+            }
+
+            40% {
+            translate: calc(var(--sh)*-1px) calc(var(--sh)*-2px);
+            }
+
+            60% {
+            translate: calc(var(--sh)*1px) calc(var(--sh)*2px);
+            }
+
+            80% {
+            translate: calc(var(--sh)*1px) calc(var(--sh)*-1px);
+            }
+        }
+
+        #home.shake,#bg.shake,nav.shake,#under.shake {
+            animation: shk .1s linear infinite;
+        }
+        /* cards */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(270px,1fr));
+            gap: 20px;
+        }
+
+        #feat {
+            grid-template-columns: repeat(auto-fill,minmax(230px,1fr));
+            gap: 16px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            background: rgba(22,27,34,.8);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform .25s,border-color .25s,box-shadow .25s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--g);
+            box-shadow: 0 10px 36px rgba(80,216,144,.14);
+        }
+
+        .th {
+            position: relative;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg,rgba(80,216,144,.08),rgba(79,152,202,.08)),rgba(22,27,34,.45);
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            -webkit-backdrop-filter: blur(12px) saturate(1.2);
+            backdrop-filter: blur(12px) saturate(1.2);
+        }
+
+        #feat .th {
+            aspect-ratio: 16/9;
+        }
+
+        .th img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .th svg {
+            width: 48px;
+            opacity: .5;
+        }
+
+        .cb {
+            padding: 14px 16px 16px;
+        }
+
+        #feat .cb {
+            padding: 12px 14px 14px;
+        }
+
+        .cb h4 {
+            font-size: 1.1rem;
+            color: var(--g);
+        }
+
+        #feat .cb h4 {
+            font-size: 1rem;
+        }
+
+        .cb p {
+            color: var(--mu);
+            font-size: .93rem;
+            line-height: 1.5;
+            display: table;
+            margin: 8px 0 12px;
+            padding: 5px 10px;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 8px;
+            background: rgba(255,255,255,.035);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .tag {
+            font-size: .78rem;
+            border: 1px solid rgba(79,152,202,.28);
+            border-radius: 999px;
+            padding: 3px 11px;
+            color: var(--b);
+            background: linear-gradient(135deg,rgba(79,152,202,.1),rgba(255,255,255,.025)),rgba(22,27,34,.45);
+            -webkit-backdrop-filter: blur(10px) saturate(1.2);
+            backdrop-filter: blur(10px) saturate(1.2);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .filters button {
+            background: var(--panel);
+            color: var(--mu);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 6px 16px;
+            cursor: pointer;
+            font: 400 .95rem 'Lato',sans-serif;
+        }
+
+        .filters button:hover {
+            border-color: var(--b);
+            color: var(--tx);
+        }
+
+        .filters button.on {
+            background: var(--g);
+            border-color: var(--g);
+            color: #06140c;
+        }
+
+        .sec {
+            margin-top: 20px;
+        }
+        /* about + links */
+
+        .facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(130px,1fr));
+            gap: 14px;
+            margin: 26px 0 34px;
+        }
+
+        .fact {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            background: rgba(22,27,34,.8);
+        }
+
+        .fact b {
+            display: block;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--g);
+            text-shadow: 0 0 18px rgba(80,216,144,.45);
+            line-height: 1.1;
+        }
+
+        .fact span {
+            color: var(--mu);
+            font-size: .9rem;
+        }
+
+        .blocks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap: 18px;
+        }
+
+        .block {
+            border-left: 3px solid var(--b);
+            padding: 4px 0 4px 18px;
+        }
+
+        .block h4 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .block p {
+            color: var(--mu);
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .links a {
+            border: 1px solid var(--line);
+            background: var(--panel);
+            border-radius: 999px;
+            padding: 10px 22px;
+        }
+
+        .links a:hover {
+            border-color: var(--g);
+            color: var(--g);
+            box-shadow: 0 0 22px rgba(80,216,144,.25);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 8px;
+        }
+        /* home sections (GitHub-style headings) */
+
+        .home {
+            display: flex;
+            flex-direction: column;
+            gap: 64px;
+            padding: 30px 0 40px;
+        }
+
+        .hs {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity .6s ease,transform .6s ease;
+        }
+
+        .hs.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        .sh {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .more {
+            margin-left: auto;
+            position: relative;
+            cursor: pointer;
+            font-size: .95rem;
+            font-weight: 400;
+            color: var(--b);
+        }
+
+        .more:hover {
+            color: var(--g);
+        }
+
+        .more::after,#top::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -3px;
+            height: 2px;
+            background: var(--g);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .3s ease;
+        }
+
+        .more:hover::after,#top:hover::after {
+            transform: scaleX(1);
+        }
+
+        #top {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card {
+            position: relative;
+        }
+
+        .ic::before,.card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .3s;
+            background: radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(80,216,144,.16),transparent 70%);
+        }
+
+        .ic:hover::before,.card:hover::before {
+            opacity: 1;
+        }
+
+        .ic::after {
+            content: "";
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 0;
+            height: 2px;
+            background: linear-gradient(90deg,var(--g),var(--b));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .4s cubic-bezier(.22,.61,.36,1);
+        }
+
+        .ic:hover::after,.ic:focus-visible::after {
+            transform: scaleX(1);
+        }
+
+        .two {
+            max-width: 72ch;
+        }
+
+        .two p {
+            color: var(--mu);
+            font-size: 1.1rem;
+        }
+
+        .two p b {
+            color: var(--tx);
+        }
+
+        .grid.sm {
+            grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+        }
+
+        .ic {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            padding: 18px 20px;
+            border-radius: 14px;
+        }
+
+        .ic h4 {
+            color: var(--g);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .ic p {
+            color: var(--mu);
+            font-size: .93rem;
+            line-height: 1.5;
+        }
+
+        .ic:hover {
+            transform: translateY(-3px);
+            border-color: var(--g);
+            box-shadow: 0 10px 36px rgba(80,216,144,.14);
+        }
+
+        .lc {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .li {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--line);
+            flex: none;
+            color: var(--mu);
+            font-weight: 700;
+        }
+
+        .li img,.li svg {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .cta {
+            text-align: center;
+            padding: 44px 24px;
+            border-radius: 18px;
+        }
+
+        .cta h3 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .cta p {
+            color: var(--mu);
+            max-width: 56ch;
+            margin: 0 auto;
+        }
+
+        .cta .btns {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .project-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .bar .filters {
+            margin: 0;
+        }
+
+        .search {
+            padding: 9px 18px;
+            border-radius: 999px;
+            color: var(--tx);
+            font: 400 .95rem 'Lato',sans-serif;
+            outline: none;
+        }
+
+        .search {
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .search:focus {
+            border-color: var(--b);
+        }
+
+        #cnt {
+            margin: 14px 0 18px;
+            font-size: .9rem;
+        }
+
+        @media(max-width:860px) {
+
+            .home {
+            gap: 48px;
+            }
+        }
+        /* footer */
+
+        footer {
+            position: relative;
+            z-index: 2;
+            margin-top: 40px;
+            padding: 56px 6vw 28px;
+            color: var(--mu);
+        }
+
+        .fi {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr 1fr;
+            gap: 36px;
+        }
+
+        .fb b {
+            display: block;
+            color: var(--tx);
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .fb p {
+            font-size: .95rem;
+            max-width: 34ch;
+        }
+
+        footer h5 {
+            color: var(--tx);
+            font-size: .8rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .fc a {
+            display: block;
+            padding: 4px 0;
+            cursor: pointer;
+        }
+
+        .fc a:hover {
+            color: var(--g);
+        }
+
+        .fbar {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: .85rem;
+        }
+
+        .fbar a:hover {
+            color: var(--g);
+        }
+
+        @media(max-width:860px) {
+
+            .fi {
+            grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width:520px) {
+
+            .fi {
+            grid-template-columns: 1fr;
+            }
+        }
+        /* glass: same recipe as the dropdowns */
+
+        .card,.fact,.block,.btn:not(.p),.ico a,.filters button,.links a,.ic,.cta,.search,.tag,footer {
+            background: linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.01)),var(--glass);
+            -webkit-backdrop-filter: blur(12px) saturate(1.2);
+            backdrop-filter: blur(12px) saturate(1.2);
+            border: 1px solid var(--line);
+            box-shadow: 0 8px 30px rgba(0,0,0,.35);
+        }
+
+        .block {
+            border-radius: 14px;
+            padding: 16px 18px;
+            border-left: 3px solid var(--b);
+        }
+
+        footer {
+            border-width: 1px 0 0;
+            box-shadow: none;
+        }
+
+        .btn,.ico a,.links a,.filters button,.ic {
+            transition: transform .2s,border-color .2s,box-shadow .2s,color .2s;
+        }
+
+        .btn:not(.p):hover {
+            border-color: var(--b);
+            box-shadow: 0 0 20px rgba(79,152,202,.4);
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
             * {
-                transition: 200ms;
-            }
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: 'Lato', sans-serif;
-                font-size: 16px;
-                overflow-x: hidden;
-            }
-            html, body {
-                height: 100%;
-                min-height: 100vh;
-            }
-            main {
-                width: 100vw;
-                display: block;
-            }
-            
-            /* 
-                Remove annoying underline from abbr tag, 
-                sorry I write CSS like it is JS =P 
-            */
-            abbr[title] {
-                border-bottom: none !important;
-                cursor: inherit !important;
-                text-decoration: none !important;
-            }
-            
-            /* My custom links */
-            .link {
-                display: inline-block;
-                position: relative;
-                color: #50D890;
-                text-decoration: none;
-                transition: all 400ms ease;
-            }
-            .link::before {
-                content: "";
-                position: absolute;
-                width: 100%;
-                height: 2px;
-                bottom: 0;
-                left: 0;
-                background-color: #50D890;
-                visibility: hidden;
-                transform: scaleX(0);
-                transition: all 0.3s ease-in-out 0s;
-                cursor: pointer;
-            }
-            .link:hover::before {
-                visibility: visible;
-                transform: scaleX(1);
-            }
-            .link:hover {
-                color: #4F98CA;
-            }
-            
-            /* My custom bullet points */
-            ul.bullet {
-                color: #272727;
-                list-style-type: none;
-                padding: 0 40px;
-                text-align: left;
-                color: "";
-            }
-            ul.bullet li {
-                position: relative;
-                padding-left: 20px;
-                margin-bottom: 5px;
-            }
-            ul.bullet li::before {
-                content: "";
-                position: absolute;
-                left: 0;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 10px;
-                height: 10px;
-                border-radius: 3px;
-                border: 2px solid #272727;
-                background-color: "";
-            }
-            
-        </style>
-        <!--Navigation-->
-        <style>
-            nav {
-                display: flex;
-                justify-content: center;
-                position: fixed;
-                top: 0px;
-                padding-top: 10px;
-                width: 100%;
-                z-index: 100;
-                user-select: none;
-            }
-            nav.sticky {
-                position: fixed;
-                top: 0;
-            }
-            nav ul {
-                list-style-type: none;
-                padding: 3px 5px;
-                margin: 0;
-                display: flex;
-                justify-content: center;
-                /*background: rgba(255, 255, 255, 0.2);
-                -webkit-backdrop-filter: blur(5px);
-                backdrop-filter: blur(5px);
-                border-radius: 20px;*/
-            }   
-            nav ul li {
-                margin: 0 5px;
-                position: relative;
-            }
-            
-            /* Center align the dropdown text and arrow */
-            nav ul li a {
-                display: flex; /* Use flexbox for alignment */
-                align-items: center; /* Vertically center the text and arrow */
-                justify-content: space-between; /* Add space between text and arrow */
-                color: white;
-                text-decoration: none;
-                padding: 10px 18px;
-                border-radius: 20px;
+            animation: none!important;
+            transition: none!important;
             }
 
-            nav ul li a span.material-symbols-outlined {
-                font-size: 20px; /* Adjust the size of the arrow */
-                margin-left: 5px; /* Add some spacing between the text and the arrow */
-                line-height: 1; /* Ensure the arrow doesn't affect line height */
+            html {
+            scroll-behavior: auto;
             }
+        }
 
-            nav ul li a:hover {
-                background-color: #4F98CA;
-            }
-            
-            @media (max-width: 768px) {
-                nav ul li a:hover,
-                #nav-links li ul li a:hover {
-                    background-color: #4F98CA !important;
-                    color: white !important;
-                    border-radius: 20px;
-                }
-            }
+    </style>
+</head>
+<body class="hold">
+    <div id="bg"></div>
+    <div id="under"></div>
 
-            /* Add sliding animation to dropdown */
-            nav ul li ul {
-                transition: 0s;
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                background: rgba(255, 255, 255, 0.2);
-                -webkit-backdrop-filter: blur(5px);
-                backdrop-filter: blur(5px);
-                box-shadow: 0px 0px 15px rgb(0, 0, 0, 0.5);
-                border-radius: 10px;
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-10px); /* Start slightly above */
-                /*transition: opacity 1.3s ease, visibility 1.3s ease, transform 1.3s ease; /* Smooth transition */
-            }
+    <!-- Navigation -->
+    <nav id="nav">
+        <button id="burger" aria-label="Menu">&#9776;</button>
+        <ul>
+            <li><a data-p="home">Home</a></li>
+            <li>
+                <a tabindex="0" data-g="about">About Me<i class="ch"></i></a>
+                <ul>
+                    <li><a data-p="about">Overview</a></li>
+                    <li><a data-p="about" data-s="b3">Web Development</a></li>
+                </ul>
+            </li>
+            <li>
+                <a tabindex="0">My Interests<i class="ch"></i></a>
+                <ul>
+                    <li><a data-p="about" data-s="b0">Art</a></li>
+                    <li><a data-p="about" data-s="b1">Chess</a></li>
+                    <li><a data-p="about" data-s="b2">Nature &amp; Photography</a></li>
+                    <li><a data-p="about" data-s="b4">Basketball</a></li>
+                </ul>
+            </li>
+            <li><a data-p="projects">Projects</a></li>
+            <li><a data-p="links">Links</a></li>
+        </ul>
+    </nav>
 
-            nav ul li:hover ul {
-                display: block;
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0); /* Slide into place */
-            }
-            nav ul li ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                background: rgba(255, 255, 255, 0.9);
-                box-shadow: 0px 0px 15px rgb(0, 0, 0, 0.5);
-                border-radius: 10px;
-            }
-            nav ul li:hover ul {
-                display: block;
-            }
-            nav ul li ul li {
-                width: 200px;
-            }
-            nav ul li ul li a {
-                color: black;
-                border-radius: 30px;
-                /*background-color: #FFD369;*/
-                background: none;
-                border-style: solid;
-                border-color: transparent;
-                padding: 10px 12px;
-            }
-            nav ul li ul li a:hover {
-                background-color: rgba(39, 32, 0, 0.2);
-                border-radius: 5px;
-                /*color: white;*/
-            }
-            
-            #underlay {
-                transition: 1s;
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 70px;
-                justify-content: center;
-                background: rgba(0, 0, 0, 0.5);
-                -webkit-backdrop-filter: blur(15px);
-                backdrop-filter: blur(15px);
-                box-shadow: 0px 0px 15px rgb(0, 0, 0, 0.5);
-                z-index: 50;
-            }
-            
-
-            #hamburger {
-                display: none;
-                font-size: 30px;
-                cursor: pointer;
-                color: white;
-                padding: 10px;
-                z-index: 30;
-            }
-
-            #nav-links {
-                display: flex;
-                list-style-type: none;
-                padding: 3px 5px;
-                margin: 0;
-                justify-content: center;
-            }
-
-            #nav-links li {
-                margin: 0 5px;
-                position: relative;
-            }
-
-            #nav-links li ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                background: rgba(255, 255, 255, 0.8);
-                -webkit-backdrop-filter: blur(5px);
-                backdrop-filter: blur(5px);
-                box-shadow: 0px 0px 15px rgb(0, 0, 0, 0.5);
-                border-radius: 10px;
-            }
-
-            #nav-links li:hover ul {
-                display: block;
-            }
-
-            /* 
-                Add top and bottom lines for dropdown links 
-                Only when not in mobile
-            */
-            @media (min-width: 768px) {
-                
-            }
-            
-            /* Mobile Menu */
-            @media (max-width: 768px) {
-                #hamburger {
-                    display: block;
-                }
-
-                #nav-links {
-                    display: none;
-                    flex-direction: column;
-                    background: rgba(0, 0, 0, 0.9); 
-                    -webkit-backdrop-filter: blur(5px);
-                    backdrop-filter: blur(5px);
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%; /* Full width */
-                    height: 100%; /* Full height */
-                    z-index: 30; /* Ensure it appears above other elements */
-                    justify-content: flex-start; /* Align links to the top */
-                    align-items: center; /* Center the links horizontally */
-                    padding-top: 70px; 
-                    overflow-y: auto; /* Enable vertical scrolling */
-                }
-                
-                @media (max-width: 768px) {
-                    #nav-links > li > a.no-click {
-                        display: none !important;
-                    }
-                }
-
-                nav ul li a {
-                    font-size: 1.7rem;
-                }
-
-                nav ul li ul li a {
-                    font-size: 1.7rem;
-                    color: #4F98CA; 
-                    
-                }
-
-                #nav-links li {
-                    text-align: center;
-                    margin: 0px 0; /* Add spacing between links */
-                    width: auto; /* Adjust width for better alignment */
-                }
-
-                #nav-links li ul {
-                    position: static;
-                    box-shadow: none; 
-                    background: transparent; 
-                    -webkit-backdrop-filter: none; 
-                    backdrop-filter: none; 
-                    user-select: none;
-                }
-
-                /* Always display dropdown content */
-                nav ul li ul {
-                    display: block !important; /* Ensure dropdown content is always visible */
-                    position: static; /* Remove absolute positioning */
-                    background: transparent; /* Remove background styling */
-                    box-shadow: none; /* Remove shadow */
-                    padding: 0; /* Remove padding */
-                    margin: 0; /* Remove margin */
-                    opacity: 1; /* Ensure visibility */
-                    visibility: visible; /* Ensure visibility */
-                    transform: none; /* Remove any transform effects */
-                }
-
-                /* Adjust dropdown links */
-                nav ul li ul li {
-                    width: auto; /* Adjust width for better alignment */
-                }
-
-                nav ul li ul li a {
-                    color: white; /* Ensure text is visible */
-                    padding: 5px 0px; /* Add padding for spacing */
-                    text-align: left; /* Align text to the left */
-                }
-
-                /* Remove hover effects */
-                nav ul li:hover ul {
-                    display: block; /* Ensure dropdown content is always displayed */
-                    opacity: 1;
-                    visibility: visible;
-                    transform: none;
-                }
-
-                #hamburger {
-                    display: block;
-                    font-size: 30px;
-                    cursor: pointer;
-                    color: white;
-                    padding: 10px;
-                    z-index: 40; /* Ensure it appears above the menu */
-                    position: fixed; /* Keep the hamburger icon fixed */
-                    top: 10px; /* Position it at the top */
-                    left: 50%; /* Start at the center of the screen */
-                    transform: translateX(-50%); /* Adjust to truly center the icon */
-                }
-
-                
-            }
-            @media (max-width: 768px) {
-                #nav-links li ul li a {
-                    text-align: center; /* Center the text inside the dropdown links */
-                    display: block; /* Ensure the links take up the full width */
-                    padding: 10px 0; /* Adjust padding for better spacing */
-                    color: white;
-                }
-
-                #nav-links li ul li {
-                    text-align: center; /* Center the dropdown items */
-                }
-            }
-
-            
-        </style>
-        <!--Hero-->
-        <style>
-            /* Hero */
-            #hero {
-                position: relative; /* or just omit, default is fine */
-                background-image: url('https://wallpapercave.com/wp/wp4570765.jpg');
-                height: calc(100vh + 40vh);;
-                background-size: cover;
-                background-position: center;
-                background-attachment: fixed;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: white;
-                box-sizing: border-box;
-            }
-            #hero-underlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 1;
-            }
-            #hero-overlay {
-                position: absolute;
-                top: -10%;
-                left: 0;
-                width: 100%;
-                background-image: url('https://raw.githubusercontent.com/Arrow-programming/My-life-in-a-grapefruit/refs/heads/main/unnamed.png');
-                height: 100vh;
-                background-size: cover;
-                background-position: center;
-                z-index: 2;
-            }
-            #hero-overlay-2 {
-                position: absolute;
-                top: 4%;
-                left: 0;
-                width: 100%;
-                background-image: url('https://raw.githubusercontent.com/Arrow-programming/My-life-in-a-grapefruit/refs/heads/main/unnamed.png');
-                height: 100vh;
-                background-size: cover;
-                background-position: center;
-                z-index: 2;
-            }
-            #hero-overlay-3 {
-                position: absolute;
-                top: 20%;
-                left: -10%;
-                width: 100%;
-                background-image: url('https://raw.githubusercontent.com/Arrow-programming/My-life-in-a-grapefruit/refs/heads/main/unnamed.png');
-                height: 100vh;
-                background-size: cover;
-                background-position: center;
-                z-index: 2;
-            }
-            #hero-overlay-overlay {
-                position: absolute;
-                top: 69%;
-                left: 0;
-                width: 100%;
-                height: 8%;
-                background-color: rgba(255, 255, 255, 1);
-                /* Only bottom shadow: offset-y is positive, offset-x is 0 */
-                box-shadow: 0 30px 40px -10px rgba(0, 0, 0, 0.35);
-                z-index: 21;
-            }
-
-            #hero #txt {
-                position: relative;
-                z-index: 20; /* higher than #hero-overlay-overlay */
-                text-align: center;
-                left: 0;
-                top: 50%;
-            }
-            #hero #txt h1 {
-                font-size: 6rem;
-                margin: 0;
-                color: #242424;
-                
-            }
-            #hero #txt h2 {
-                font-size: 2rem;
-                margin: 0;
-                font-weight: 400;
-                color: #242424;
-            }
-            #hero #txt h3 {
-                font-size: 2rem;
-                margin: 0;
-                font-weight: 400;
-                color: #242424;
-            }
-            
-            #type {
-                display: inline; /* Make the div behave like an inline element */
-                color: #5ec49d;
-                text-align: center;
-                margin: 0; /* Remove any default margin */
-                padding: 0; /* Remove any default padding */
-            }
-            #type p {
-                position: relative;
-                transform: translate(4px);
-                display: inline;
-                color: white;
-            }
-            
-
-            #icons {
-                position: relative;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 18px;
-                margin-top: 20px;
-                z-index: 20;
-            }
-
-            #icons a {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 44px;
-                height: 44px;
-                text-decoration: none;
-                border-radius: 50%;
-                transition: background 0.2s;
-            }
-
-            #icons i {
-                font-size: 32px;
-                width: 32px;
-                height: 32px;
-                color: #242424;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: color 0.3s, filter 0.3s;
-            }
-
-            #icons img {
-                width: 32px;
-                height: 32px;
-                object-fit: contain;
-                filter: grayscale(100%) brightness(0.9);
-                transition: filter 0.3s;
-                display: block;
-                
-            }
-
-           
-            #icons a:hover i,
-            #icons a:focus i {
-                color: #4F98CA !important;
-                box-shadow: none;
-            }
-            #icons a:hover img,
-            #icons a:focus img {
-                filter: grayscale(0%) brightness(1.1) sepia(1) hue-rotate(180deg) saturate(4) drop-shadow(0 0 4px #4F98CA);
-                transform: scale(1.15);
-            }
-            #icons a:hover,
-            #icons a:focus {
-                outline: none;
-            }
-            
-            #icons i,
-            #icons .material-icons,
-            #icons .material-symbols-outlined {
-                color: #242424 !important;
-                filter: none !important;
-            }
-
-            /* For images, use filter to approximate #242424 */
-            #icons img {
-                filter: brightness(0) saturate(100%) invert(13%) sepia(6%) saturate(0%) hue-rotate(346deg) brightness(98%) contrast(90%);
-            }
-
-    		.place {
-    		    z-index: 15;
-    		    width: 100%;
-    		    height: 38%;
-    		    top: 6%;
-    		    position: absolute;
-    		}
-    		.place .material-symbols-outlined {
-			    
-			    color: #50D890; 
-			    font-size: 7rem; 
-			    text-shadow: 0px 0px 3px #50D890; 
-			    top: 30vh;
-			    z-index: 16;
-                margin-left: -3.5rem;
-			    position: absolute;
-			}
-    		.place .material-symbols-outlined {
-    		    animation: anima 1s linear infinite;
-    		    user-select: none;
-    		}
-    		.place .material-symbols-outlined:hover {
-    		    animation: anim 0.3s linear infinite;
-    		    animation: anima 0.3s linear infinite;
-    		    color: #242424; 
-                text-shadow: none;
-    		}
-    		@keyframes anima {
-                0% {
-    				transform: translateY(0px) rotate(0deg);
-    				opacity: 1;
-    			}
-    			50% {
-    				transform: translateY(5px) rotate(0deg);
-    			}
-    			100% {
-    				transform: translateY(0px) rotate(0deg);
-    			}
-    		}
-    		@keyframes anim {
-                0% {
-    				transform: rotate(0deg);
-    				opacity: 1;
-    			}
-    			50% {
-    			    transform: rotate(-3deg);
-    			}
-                100% {
-    				transform: rotate(3deg);
-    			}
-    		}
-        </style>
-        <!--Content-->
-        <style>
-            /*
-                Each section is 100vh tall
-                and 100vw wide. 
-                The main element is 
-                pushed down 40vh to 
-                account for the hero image. 
-            */
-
-            main {
-                position: relative;
-                width: 100vw;
-                display: flex;
-                flex-direction: column;
-                top: 30vh;
-            }
-                        
-            section {
-                position: relative;
-                width: 100vw;
-                min-height: 60vh; /* or whatever minimum you want */
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: rgb(255, 255, 255);
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                box-shadow: 0 0px -40px -10px rgba(255, 5, 5, 0.35);
-            }
-            
-            section #textbox {
-                position: relative;
-                margin: 0;
-                max-width: 900px;
-                width: 100%;
-                text-align: center;
-                padding: 0;
-                box-sizing: border-box;
-                background: rgba(255, 255, 255, 0.2);
-                -webkit-backdrop-filter: blur(5px);
-                backdrop-filter: blur(5px);
-                border-radius: 20px;*/
-            }
-
-            
-            #About {
-                position: relative;
-                width: 100vw;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background: rgb(255, 255, 255); /* Match canvas background */
-                overflow: hidden;
-                margin: 0;
-                padding: 0;
-            }
-            #aboutCanvas {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 2000px !important;
-                height: 2000px !important;
-                min-width: 1000px;
-                min-height: 1000px;
-                max-width: 5000px;
-                max-height: 5000px;
-                display: block;
-                margin: 0;
-                background-color: rgb(255, 255, 255);
-                z-index: 1;
-                pointer-events: none;
-                box-sizing: border-box;
-                border: none;
-            }
-            #About #textbox {
-                position: relative;
-                z-index: 2;
-                margin: 0 auto;
-                margin-left: 50px;
-                margin-right: 50px;
-                max-width: 1500px;
-                width: 100%;
-                text-align: center;
-                background: rgba(255, 255, 255, 0.2);
-                -webkit-backdrop-filter: blur(5px);
-                backdrop-filter: blur(5px);
-                border-radius: 50px;
-                padding: 2rem 1rem;
-                box-shadow: 0 0 15px rgba(0,0,0,0.3);
-            }
-            #About #textbox h1 {
-                font-size: 4rem;
-                margin-top: 0;
-                margin-bottom: 0px;
-                color: #4F98CA;
-            }
-            #About #textbox h2 {
-                font-size: 2rem;
-                margin-top: 0;
-                margin-bottom: 10px;
-                color: #50D890;
-            }
-            #About #textbox p {
-                font-size: 1.3rem;
-                margin-top: 0;
-                margin-bottom: 20px;
-                color: #242424;
-            }
-            #WebDev {
-                box-shadow: 0 -30px 40px -10px rgba(0,0,0,0.35);
-                z-index: 10; 
-                position: relative; 
-            }
-            #WebDev #textbox {
-                position: relative;
-                z-index: 2;
-                margin: 0 auto;
-                margin-left: 50px;
-                margin-right: 50px;
-                max-width: 1500px;
-                width: 100%;
-                text-align: center;
-                background: rgba(255, 255, 255, 0.2);
-                -webkit-backdrop-filter: blur(5px);
-                backdrop-filter: blur(5px);
-                border-radius: 50px;
-                padding: 2rem 1rem;
-                box-shadow: 0 0 15px rgba(0,0,0,0.3);
-            }
-            #WebDev #textbox h1 {
-                font-size: 4rem;
-                margin-top: 0;
-                margin-bottom: 20px;
-                color: #4F98CA;
-            }
-            #WebDev #textbox h2 {
-                font-size: 2rem;
-                margin-top: 0;
-                margin-bottom: 20px;
-                color: #50D890;
-            }
-            #WebDev #textbox p {
-                font-size: 1.3rem;
-                margin-top: 0;
-                margin-bottom: 20px;
-                color: #242424;
-            }
-        </style>
-    </head>
-    <body>
-        <header>
-            <div id="underlay"></div>
-                <nav id="navbar">
-                    <div id="hamburger" onclick="toggleMenu()">&#9776;</div> <!-- Hamburger Icon -->
-                    <ul id="nav-links">
-                        <li><a id="homeLink" class="tablink" onclick="openPage('home', this, '#FFD369', true); Scroll(0);">Home</a></li>
-                        <li>
-                            <!--About Us Directory-->
-                            <a>About Me <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
-                            <ul>
-                                <li><a onclick="openPage('WhoWeAre', this, '#FFD369', true); Scroll(0);">#1</a></li>
-                                <li><a onclick="openPage('DoctrinalStandards', this, '#FFD369', true); Scroll(0);">#2</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a>My Interests <span class="material-symbols-outlined">keyboard_arrow_down</span></a>
-                            <ul>
-                                <li><a onclick="openPage('WorshipInfo', this, '#FFD369', true); Scroll(0);">#1</a></li>
-                                <li><a onclick="openPage('Sermons', this, '#FFD369', true); Scroll(0);">#2</a></li>
-                                <li><a onclick="openPage('Meditation', this, '#FFD369', true); Scroll(0);">#3</a></li>
-                                <li><a onclick="openPage('LiveStream', this, '#FFD369', true); Scroll(0);">#4</a></li>
-                            </ul>
-                        </li>
-                        <li><a id="calendarLink" class="tablink" onclick="openPage('Calendar', this, '#FFD369', true); Scroll(0);">Special Link</a></li>
-                        <li><a id="contactUsLink" class="tablink" onclick="openPage('ContactUs', this, '#FFD369', true); Scroll(0);">Super Link</a></li>
-                        <li><a id="" class="tablink" href = "https://rfrc.breezechms.com/login" target = "_blank">Donate</a></li>
-                    </ul>
-                </nav>
-        </header>   
-        <div id="hero">  
-            <div id = "hero-underlay"></div>
-            <div id = "hero-overlay-2"></div>
-            <div id = "hero-overlay-3"></div>
-            <div id = "hero-overlay"></div>
-            <div id = "hero-overlay-overlay"></div>
-            <div id = "txt">
-                <h2><span style = "color: #78aee0;">Hello!</span> My name is</h2>
-                <h1><span style = "color: #78aee0;">Paul</span> Vanderboon</h1>
-                <h3>And I am a  <span id="type">
-                        <p></p>
-                        <span id="typeCursor"></span>
-                        <p></p>
-                    </span></h3>
+    <!-- Home -->
+    <section class="page" id="home">
+        <div class="hero">
             <div>
-            <div id = "icons">
-                <a href="https://github.com/Arrow-programming" target="_blank">
-                    <i class="fab fa-github github-icon"></i>
-                </a>
-                <a href="https://www.inaturalist.org/people/outfoxed" target="_blank">
-                    <img src="https://www.inaturalist.org/favicon.ico" alt="iNaturalist" class="inaturalist-icon">
-                </a>
-                
-                <a href="https://www.khanacademy.org/profile/Arrow.programming" target="_blank">
-                    <img src="https://www.khanacademy.org/favicon.ico" alt="Khan Academy" class="khan-icon">
-                </a>
-                <a href="https://ebird.org/profile/MzM1Mzc2Nw/US" target="_blank">
-                    <img src="https://ebird.org/favicon.ico" alt="eBird" class="ebird-icon">
-                </a>
-                <a href="https://biology.stackexchange.com/users/80807/arrow" target="_blank">
-                    <img src="https://biology.stackexchange.com/favicon.ico" alt="Biology Stack Exchange" class="biose-icon">
-                </a>
+                <h3>Hello! My name is</h3>
+                <div class="nm">
+                    <h1>Paul Vanderboon</h1>
+                </div>
+                <div class="role">And I am a <span id="ty"></span><span class="cur"></span></div>
+                <div class="ico" id="ico"></div>
+                <div class="btns">
+                    <a class="btn p" style="--i:5" data-p="projects">See my projects</a>
+                    <a class="btn" style="--i:6" data-p="about">About me</a>
+                </div>
             </div>
-            <div class = "place" style = "position: absolute;">
-                <span class="material-symbols-outlined" onclick = "Scroll(1000)">stat_minus_1</span>
+            <div id="tris" aria-hidden="true"></div>
+        </div>
+        <div class="home">
+            <section class="hs">
+                <h3 class="sh">Who am I?</h3>
+                <div class="two">
+                    <p>Hello! My name is Paul VanderBoon! I live in Michigan, I am a prospective Civil Engineer, and have been coding since pre-covid. This is my portfolio, an arrangment of a large majority of my online projects over the years (not including personal projects you can find those on my GitHub). Most of these projects are public. I hope you enjoy looking through them and finding out more about me!</p>
+                </div>
+            </section>
+            <section class="hs">
+                <h3 class="sh">Featured projects<a class="more" data-p="projects" tabindex="0">View all</a></h3>
+                <div class="grid" id="feat"></div>
+            </section>
+            <section class="hs">
+                <h3 class="sh">What does this site include?</h3>
+                <div class="grid sm" id="incl"></div>
+            </section>
+            <section class="hs">
+                <h3 class="sh">What am I into?</h3>
+                <div class="grid sm" id="ints"></div>
+            </section>
+            <section class="hs">
+                <h3 class="sh">Highlights</h3>
+                <div class="facts" id="hl"></div>
+            </section>
+            <section class="hs cta">
+                <h3>Let's connect</h3>
+                <p>Want to see more of my work or just say hi? Find me through my social links, or alternatively leave a note in the Tips &amp; Thanks on any of my Khan Academy programs.</p>
+                <div class="btns">
+                    <a class="btn p" data-p="projects" tabindex="0">Browse projects</a>
+                    <a class="btn" data-p="links" tabindex="0">Find me online</a>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- About me -->
+    <section class="page" id="about">
+        <h2>About me</h2>
+        <p class="sub">During covid I was introduced to Khan Academy where I first learned how to code more than the simple shapes I had been doing. I got quite competent with JS but after Covid my interest died down a bit only to be rekindled when I started to use my ability as a programmer to complete school assignments (making custom graphics with KAPJS, etc). About 2 years later a friend encouraged me to try webdesign, and so I learned HTML and CSS by going through the w3schools course and writing everything down, even if I didn't grasp it. My interest was further kindled when I was elected to be a leader for a annual online coding competition held by the Khan Academy community based on my webdesign skills. I have been involved in the coding community ever since, creating projects and contributing to the community in various ways. Last year, I was very happy to be able to lead a team to victory in a differant coding competition. Coding isn't the only thing I do though, I am also somewhat competent at photography, especially focusing on life. I enjoy birding, contributing to various science platforms such as iNaturalist, eBird, etc. I also enjoy chess, reading, art, and basketball.</p>
+        <h3 class="sh">At a glance</h3>
+        <div class="facts">
+            <div class="fact"><b>224</b><span>species on my life list</span></div>
+            <div class="fact"><b>1000+</b><span>species on iNaturalist</span></div>
+            <div class="fact"><b>3,100+</b><span>photos published</span></div>
+            <div class="fact"><b>1600</b><span>classical chess</span></div>
+        </div>
+        <h3 class="sh">The details</h3>
+        <div class="blocks" id="blocks"></div>
+    </section>
+
+    <!-- Projects -->
+    <section class="page" id="projects">
+        <h2>Projects</h2>
+        <p class="sub">Games, graphics, tutorials and more, all made on Khan Academy. Click any card to open the program.</p>
+        <div class="bar">
+            <div class="project-controls">
+                <div class="filters" id="filters" aria-label="Filter projects by type"></div>
+                <div class="filters" id="sorts" aria-label="Sort projects">
+                    <button class="on" data-sort="votes">Most Votes</button>
+                    <button data-sort="spinOffs">Most Spin-Offs</button>
+                    <button data-sort="name">Name (A-Z)</button>
+                </div>
+            </div>
+            <input class="search" id="q" type="search" placeholder="Search projects..." aria-label="Search projects">
+        </div>
+        <p class="sub" id="cnt"></p>
+        <div class="grid" id="all"></div>
+    </section>
+
+    <!-- Links -->
+    <section class="page" id="links">
+        <h2>Links</h2>
+        <p class="sub">Find me around the web.</p>
+        <div class="grid sm" id="linkbox"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="fi">
+            <div class="fb">
+                <b>Paul Vanderboon</b>
+                <p>Web developer, artist and birder from Michigan. I create games, graphics and websites, and I'm always learning something new.</p>
+            </div>
+            <div class="fc">
+                <h5>Explore</h5>
+                <a data-p="home" tabindex="0">Home</a>
+                <a data-p="about" tabindex="0">About</a>
+                <a data-p="projects" tabindex="0">Projects</a>
+                <a data-p="links" tabindex="0">Links</a>
+            </div>
+            <div class="fc">
+                <h5>Interests</h5>
+                <a data-p="about" data-s="b0" tabindex="0">Art</a>
+                <a data-p="about" data-s="b1" tabindex="0">Chess</a>
+                <a data-p="about" data-s="b2" tabindex="0">Nature &amp; photography</a>
+                <a data-p="about" data-s="b3" tabindex="0">Web development</a>
+            </div>
+            <div class="fc">
+                <h5>Elsewhere</h5>
+                <span id="fl"></span>
             </div>
         </div>
-        
-        <main>
-            
-            <section id = "About">
-                <canvas id="aboutCanvas" width="1000" height="1000"></canvas>
-                <div id = "textbox">
-                    <h1>Lorem ipsum</h1>
-                    <h2>Art:</h2>
-                    <p>I specialize in watercolor, graphite and ink. I have made graphics for 4 years with code primarily and computer software (these are mostly for competitions).</p>
-                    <h2>Chess:</h2>
-                    <p>1600 classical rated (ish). 1200 <a class = "link">chess.com</a></p>
-                    <h2>Nature and photography:</h2>
-                    <p>Life list: 207 (180 in michigan). Top 13% in michigan.
-                        180 in michigan.
-                        Inat: 850 species of plants and animals.
-                        2100 photos.
-                        <h2></h2>
-                        
-                    </p>
-                    <h2>Basketball</h2>
-                    <p>Basketball is fun yes</p>
-                                <!--
-                    
-                        
+        <div class="fbar">
+            <span>&copy; 2026 Paul Vanderboon (Arrow). All rights reserved.</span>
+            <a id="top" tabindex="0">Back to top</a>
+        </div>
+    </footer>
 
-                    -->
-                </div>
-            </section>
-            <section id="WebDev">
-                <div id="textbox">
-                    <h1>Life tip:</h1>
-                    <h2>This is the footer!!</h2>
-                    <p>
-                        I learned the JS language during covid. HTML and CSS came later. 
-                        Participated in 3 tournaments and multiple competitions. 2 CC.
-                        Won 1st place twice. I taught 15+ kids (some adults lol) webdesign (coding and appearance) and a huge number of kids JS via Khan Academy (this was 2 years ago).
-     
-                        <a class = "link" href = "https://www.khanacademy.org/computer-programming/australia/5500186286931968" target = "_blank">Graphic #1</a>
-                        <a class = "link" href = "https://www.khanacademy.org/computer-programming/shuttle-graphic/6077166010286080" target = "_blank">Graphic #2</a>
-                        <a class = "link" href = "https://www.khanacademy.org/computer-programming/skeleton-pixel-art-animated/6172157249110016" target = "_blank">Graphic #3</a>
-                        <a class = "link" href = "https://www.khanacademy.org/computer-programming/bytebots-homepage-tco-entry/5091593506570240?width=916&editor=no" target = "_blank">Web #1</a>
-                        <a class = "link" href = "https://www.khanacademy.org/computer-programming/tunguska-event-tco-entry-1/6531570027249664?width=916&editor=no" target = "_blank">Web #2</a>
-                        <a class = "link" href = "https://www.khanacademy.org/computer-programming/bug-bashers/4635496337031168" target = "_blank">Web #3</a>
-                        <a class = "link" href = "https://www.khanacademy.org/computer-programming/wayfinder-journey-through-the-elements/4969914611712000" target = "_blank">Game #1</a>
-                        <a class = "link" href = "https://www.khanacademy.org/computer-programming/new-webpage/6424260317462528" target = "_blank">CUR WIP #1</a>
-                        <a class = "link" href = "https://arrow-programming.github.io/turbo-octo-spork/Church%20Website%20Master%20File/ChurchWebsite.html" target = "_blank">Final</a>
-                    </p>
-                </div>
-            </section>
-            
-            
-        </main>
-    </body>
-    <!--Page & Nav JS-->
     <script>
-        // Open a page  
-        function openPage(pageName, elmnt, color, glow) {
-            var i, tabcontent, tablinks;
-    
-            // Hide all tabcontent
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-    
-            // Reset all tablinks' styles
-            tablinks = document.querySelectorAll("nav ul li a");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].style.backgroundColor = ""; // Reset background to blank
-                tablinks[i].style.boxShadow = "";      // Remove glow effect
-            }
-    
-            // Display the selected page and style the clicked link
-            document.getElementById(pageName).style.display = "block";
-            if (elmnt) {
-                elmnt.style.backgroundColor = color; // Apply the color to the clicked link
-                if (glow) {
-                    //elmnt.style.boxShadow = "0px 0px 15px #FFD369"; // Add glow effect
-                }
-            }
-    
-            // Update the hero text and image
-            const heroTitle = document.getElementById("hero-title");
-            const heroDescription = document.getElementById("hero-description");
-            const heroImage = document.querySelector(".hero #img");
-            if (heroContent[pageName]) {
-                heroTitle.innerHTML = heroContent[pageName].title;
-                heroDescription.innerHTML = heroContent[pageName].description;
-                heroImage.style.backgroundImage = `url('${heroContent[pageName].image}')`;
-                heroImage.style.backgroundPosition = heroContent[pageName].backgroundPosition;
-            }
-    
-            // Update the URL in the browser's address bar
-            const newUrl = `/${pageName}`;
-            history.pushState({ page: pageName }, "", newUrl);
-        }
-    
-        // Handle back/forward navigation
-        window.addEventListener("popstate", function (event) {
-            if (event.state && event.state.page) {
-                openPage(event.state.page, null, "#FFD369", false);
-            }
-        });
-    
-        // Default page
-        document.getElementById("homeLink").click();
-    </script>
-    <!--Intersection Observer-->
-    <script type='module'>
-        function whenOnScreen(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationName = 'come-in';
-                }
-            });
-        }
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver(whenOnScreen, {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.2,
-            });
-            
-            document.querySelectorAll('.onscroll').forEach(el => {
-                observer.observe(el);
-            });
-        } else {
-            window.addEventListener('scroll', () => {
-                document.querySelectorAll('.onscroll').forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight && rect.bottom > 0) {
-                        if (!el.classList.contains('animated')) {
-                            el.style.animationName = 'come-in';
-                            el.classList.add('animated');
-                            el.addEventListener('animationend', () => {
-                                el.classList.remove('animated');
-                            }, { once: true });
-                        }
-                    }
+        const ROLES = [
+            'Hobbyist programmer.',
+            'Artist.',
+            'Birder.',
+            'Botanist.',
+            'Chess Enthusiast.',
+            'Game Dev.',
+            'Biologist.',
+            'Fox lover.'
+        ];
+        const BLOCKS = [
+            [
+                'Art',
+                'I work in watercolor, graphite and ink. For four years I have also made graphics with code, mostly for competitions.'
+            ],
+            [
+                'Chess',
+                'About 1600 in classical.'
+            ],
+            [
+                'Nature & photography',
+                '224 species on my life list, 200+ of them in Michigan, which puts me in the top 10% in the state. 1000+ species on iNaturalist.'
+            ],
+            [
+                'Web development',
+                'I learned JavaScript during covid, then HTML and CSS. I have entered 3 tournaments and several competitions, won 1st place twice, and taught basic web design to 15+ kids.'
+            ],
+            [
+                'Basketball',
+                'I enjoy playing and watching basketball'
+            ],
+            [
+                'Everything else',
+                'Reading, ice fishing, piano'
+            ]
+        ];
+        const LINKS = [
+            [
+                'GitHub',
+                'https://github.com/Arrow-programming',
+                null,
+                'Code and repositories'
+            ],
+            [
+                'Khan Academy',
+                'https://www.khanacademy.org/profile/Arrow.programming',
+                'https://www.khanacademy.org/favicon.ico',
+                'Programs, tutorials and Tips & Thanks'
+            ],
+            [
+                'iNaturalist',
+                'https://www.inaturalist.org/people/outfoxed',
+                'https://www.inaturalist.org/favicon.ico',
+                'My observations: 1000+ species'
+            ],
+            [
+                'eBird',
+                'https://ebird.org/profile/MzM1Mzc2Nw/US',
+                'https://ebird.org/favicon.ico',
+                'Life list and checklists'
+            ],
+            [
+                'Biology Stack Exchange',
+                'https://biology.stackexchange.com/users/80807/arrow',
+                'https://biology.stackexchange.com/favicon.ico',
+                'Biology questions and answers'
+            ]
+        ];
+        const INCL = [
+            ['About', 'My story, my interests and the numbers behind them.', 'about'],
+            ['Projects', 'Every program I have made, with filters and search.', 'projects'],
+            ['Links', 'Where to find me: GitHub, Khan Academy, eBird and more.', 'links']
+        ];
+        const INTS = [
+            ['Art', 'Watercolor, graphite and ink, plus graphics made with code.', 'b0'],
+            ['Chess', 'About 1600 classical and 1200 on chess.com.', 'b1'],
+            ['Nature & photography', '224 species, 1000+ on iNaturalist, 3,100+ photos.', 'b2'],
+            ['Web & games', 'JavaScript, Canvas, tournaments and teaching.', 'b3'],
+            ['Basketball', 'I enjoy playing and watching basketball.', 'b4'],
+            ['Reading, piano & more', 'Tolkien, piano, ice fishing and walks after rain.', 'b5']
+        ];
+        const HL = [
+            ['1st x2', '1st place in two tournaments'],
+            ['15+', 'kids taught web design'],
+            ['Top 10%', 'of Michigan birders by life list'],
+            ['Captain', 'of Team Arrow, Clash of Code 2026']
+        ];
+        const PROJECTS = [
+/** 
+ * 
+ * 
+ * 
+ * 
+ * Following script was used to scrape my profile: 
+(async () => {
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  // Load all programs
+  for (let i = 0; i < 60; i++) {
+    const b = [...document.querySelectorAll("button")]
+      .find(b => /show more|load more|more projects|more programs/i.test(b.textContent));
+
+    if (!b) break;
+    b.click();
+    await wait(1200);
+  }
+
+  const seen = new Set();
+  const out = [];
+
+  document.querySelectorAll('a[href*="/computer-programming/"]').forEach(a => {
+    const m = (a.getAttribute("href") || "")
+      .match(/computer-programming\/([^/?#]+)\/(\d+)/);
+
+    if (!m || seen.has(m[2])) return;
+    seen.add(m[2]);
+
+    let el = a;
+    let card = null;
+
+    // Find the smallest parent containing exactly one program
+    for (let i = 0; i < 10 && el; i++, el = el.parentElement) {
+      const links = [...el.querySelectorAll('a[href*="/computer-programming/"]')];
+      const ids = new Set(
+        links.map(x => x.href.match(/computer-programming\/[^/]+\/(\d+)/)?.[1])
+          .filter(Boolean)
+      );
+
+      const text = el.innerText || "";
+
+      if (ids.size === 1 && /Votes?/i.test(text)) {
+        card = el;
+        break;
+      }
+    }
+
+    const text = card?.innerText || "";
+
+    const voteMatch = text.match(/([\d,]+)\s*Votes?/i);
+    const spinMatch = text.match(/([\d,]+)\s*Spin-Offs?/i);
+
+    const name = (a.innerText || a.getAttribute("aria-label") || "")
+      .trim().split("\n")[0] || m[1].replace(/-/g, " ");
+
+    out.push({
+      name,
+      votes: voteMatch ? Number(voteMatch[1].replace(/,/g, "")) : null,
+      spinOffs: spinMatch ? Number(spinMatch[1].replace(/,/g, "")) : null,
+      link: "https://www.khanacademy.org/computer-programming/" + m[1] + "/" + m[2]
+    });
+  });
+
+  
+console.log("Programs found:", out.length);
+console.table(out);
+
+const json = JSON.stringify(out, null, 2);
+
+try {
+  await navigator.clipboard.writeText(json);
+  console.log("SUCCESS: Data copied to clipboard!");
+} catch (err) {
+  // Fallback: display selectable text
+  const area = document.createElement("textarea");
+  area.value = json;
+  area.style.position = "fixed";
+  area.style.top = "10px";
+  area.style.left = "10px";
+  area.style.width = "80%";
+  area.style.height = "80%";
+  area.style.zIndex = "999999";
+  document.body.appendChild(area);
+  area.focus();
+  area.select();
+
+  console.log("Clipboard blocked. Press Ctrl+C to copy the selected data.");
+}
+
+})();
+
+ * 
+ * **/
+  {
+    "name": "wayfinder journey through the elements",
+    "votes": 225,
+    "spinOffs": 72,
+    "link": "https://www.khanacademy.org/computer-programming/wayfinder-journey-through-the-elements/4969914611712000"
+  },
+  {
+    "name": "halved a story of friendship",
+    "votes": 198,
+    "spinOffs": 9,
+    "link": "https://www.khanacademy.org/computer-programming/halved-a-story-of-friendship/5404601612943360"
+  },
+  {
+    "name": "ponas castle",
+    "votes": 185,
+    "spinOffs": 44,
+    "link": "https://www.khanacademy.org/computer-programming/ponas-castle/4749571388981248"
+  },
+  {
+    "name": "ka music player",
+    "votes": 163,
+    "spinOffs": 8,
+    "link": "https://www.khanacademy.org/computer-programming/ka-music-player/5424847674523648"
+  },
+  {
+    "name": "reel fish gamenl x arrow",
+    "votes": 115,
+    "spinOffs": 10,
+    "link": "https://www.khanacademy.org/computer-programming/reel-fish-gamenl-x-arrow/5153740904054784"
+  },
+  {
+    "name": "dronemaker gamecoc",
+    "votes": 101,
+    "spinOffs": 26,
+    "link": "https://www.khanacademy.org/computer-programming/dronemaker-gamecoc/5239836694396928"
+  },
+  {
+    "name": "super simple platformer engine",
+    "votes": 87,
+    "spinOffs": 16,
+    "link": "https://www.khanacademy.org/computer-programming/super-simple-platformer-engine/4601109010890752"
+  },
+  {
+    "name": "lighting the way",
+    "votes": 84,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/lighting-the-way/5298458895630336"
+  },
+  {
+    "name": "north america",
+    "votes": 84,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/north-america/5375233354940416"
+  },
+  {
+    "name": "arrow subscription page",
+    "votes": 82,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/arrow-subscription-page/5694044653273088"
+  },
+  {
+    "name": "africa",
+    "votes": 76,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/africa/6106021119705088"
+  },
+  {
+    "name": "hes changed a lot folks",
+    "votes": 73,
+    "spinOffs": 12,
+    "link": "https://www.khanacademy.org/computer-programming/hes-changed-a-lot-folks/5749523844349952"
+  },
+  {
+    "name": "smashy crashy",
+    "votes": 70,
+    "spinOffs": 14,
+    "link": "https://www.khanacademy.org/computer-programming/smashy-crashy/5417565478830080"
+  },
+  {
+    "name": "pixel platformer game engine teambytebots",
+    "votes": 66,
+    "spinOffs": 4,
+    "link": "https://www.khanacademy.org/computer-programming/pixel-platformer-game-engine-teambytebots/4738922624892928"
+  },
+  {
+    "name": "lonely",
+    "votes": 64,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/lonely/5309255319339008"
+  },
+  {
+    "name": "australia",
+    "votes": 62,
+    "spinOffs": 3,
+    "link": "https://www.khanacademy.org/computer-programming/australia/5500186286931968"
+  },
+  {
+    "name": "very useful everyone",
+    "votes": 60,
+    "spinOffs": 9,
+    "link": "https://www.khanacademy.org/computer-programming/very-useful-everyone/5710687383437312"
+  },
+  {
+    "name": "skeleton pixel art animated",
+    "votes": 59,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/skeleton-pixel-art-animated/6172157249110016"
+  },
+  {
+    "name": "make your own spirograph",
+    "votes": 58,
+    "spinOffs": 8,
+    "link": "https://www.khanacademy.org/computer-programming/make-your-own-spirograph/5055754861985792"
+  },
+  {
+    "name": "clam boi conspiracy theory ski is a clam oo",
+    "votes": 57,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/clam-boi-conspiracy-theory-ski-is-a-clam-oo/5828116844167168"
+  },
+  {
+    "name": "shuttle graphic",
+    "votes": 57,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/shuttle-graphic/6077166010286080"
+  },
+  {
+    "name": "europe",
+    "votes": 53,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/europe/5027462923468800"
+  },
+  {
+    "name": "caribbean",
+    "votes": 47,
+    "spinOffs": 4,
+    "link": "https://www.khanacademy.org/computer-programming/caribbean/5612988301361152"
+  },
+  {
+    "name": "coming soon posted",
+    "votes": 46,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/coming-soon-posted/6019216847978496"
+  },
+  {
+    "name": "philippines",
+    "votes": 45,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/philippines/4893332473167872"
+  },
+  {
+    "name": "new webpage",
+    "votes": 45,
+    "spinOffs": 3,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/5023707025752064"
+  },
+  {
+    "name": "coc judge bias",
+    "votes": 45,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/coc-judge-bias/5682914546794496"
+  },
+  {
+    "name": "oh deer",
+    "votes": 44,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/oh-deer/6089826758868992"
+  },
+  {
+    "name": "ornithology tco entry",
+    "votes": 43,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/ornithology-tco-entry/4732023080796160"
+  },
+  {
+    "name": "invisi able game",
+    "votes": 42,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/invisi-able-game/5093954216050688"
+  },
+  {
+    "name": "team arrow coc",
+    "votes": 42,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/team-arrow-coc/5521271368040448"
+  },
+  {
+    "name": "inspiration",
+    "votes": 42,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/inspiration/5776947129663488"
+  },
+  {
+    "name": "another wip",
+    "votes": 38,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/another-wip/6040402671747072"
+  },
+  {
+    "name": "lighting via a rasterizer",
+    "votes": 36,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/lighting-via-a-rasterizer/5969822258675712"
+  },
+  {
+    "name": "animated squares sine demo using rotation",
+    "votes": 35,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/animated-squares-sine-demo-using-rotation/5355168486178816"
+  },
+  {
+    "name": "math can be pretty",
+    "votes": 35,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/math-can-be-pretty/6532386011922432"
+  },
+  {
+    "name": "visualizing elastic collisions with gravitational forces physics engine v1",
+    "votes": 34,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/visualizing-elastic-collisions-with-gravitational-forces-physics-engine-v1/6083788723634176"
+  },
+  {
+    "name": "bug bashers",
+    "votes": 32,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/bug-bashers/4635496337031168"
+  },
+  {
+    "name": "bytebots homepage tco entry",
+    "votes": 31,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/bytebots-homepage-tco-entry/5091593506570240"
+  },
+  {
+    "name": "loading screen",
+    "votes": 31,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/loading-screen/5161136922345472"
+  },
+  {
+    "name": "defenders homepage",
+    "votes": 31,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/defenders-homepage/6061035183456256"
+  },
+  {
+    "name": "ultimate switch challenge",
+    "votes": 29,
+    "spinOffs": 4,
+    "link": "https://www.khanacademy.org/computer-programming/ultimate-switch-challenge/5121931536154624"
+  },
+  {
+    "name": "math is pretty 2",
+    "votes": 28,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/math-is-pretty-2/5762819278094336"
+  },
+  {
+    "name": "join page",
+    "votes": 25,
+    "spinOffs": 3,
+    "link": "https://www.khanacademy.org/computer-programming/join-page/5127634536415232"
+  },
+  {
+    "name": "mountains",
+    "votes": 25,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/mountains/5976826171408384"
+  },
+  {
+    "name": "logo",
+    "votes": 25,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/logo/6142896893116416"
+  },
+  {
+    "name": "idk why",
+    "votes": 25,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/idk-why/6631472588177408"
+  },
+  {
+    "name": "animated dots sine demo",
+    "votes": 25,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/animated-dots-sine-demo/6654938517389312"
+  },
+  {
+    "name": "arrowhead ap",
+    "votes": 24,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/arrowhead-ap/4970696460779520"
+  },
+  {
+    "name": "better stuffs",
+    "votes": 24,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/better-stuffs/6257905270308864"
+  },
+  {
+    "name": "animated dots 2 sine demo",
+    "votes": 23,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/animated-dots-2-sine-demo/4679874116894720"
+  },
+  {
+    "name": "interactive goo simulation arrowjs",
+    "votes": 23,
+    "spinOffs": 3,
+    "link": "https://www.khanacademy.org/computer-programming/interactive-goo-simulation-arrowjs/5744960805191680"
+  },
+  {
+    "name": "contest make a tutorial done",
+    "votes": 23,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/contest-make-a-tutorial-done/5899849877995520"
+  },
+  {
+    "name": "particle systems",
+    "votes": 22,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/particle-systems/4649803408064512"
+  },
+  {
+    "name": "optimize format colors",
+    "votes": 22,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/optimize-format-colors/4895240791638016"
+  },
+  {
+    "name": "platformer in html5 canvas a demo",
+    "votes": 22,
+    "spinOffs": 6,
+    "link": "https://www.khanacademy.org/computer-programming/platformer-in-html5-canvas-a-demo/5592629591326720"
+  },
+  {
+    "name": "animating pixel art",
+    "votes": 22,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/animating-pixel-art/6171614527537152"
+  },
+  {
+    "name": "go squirt much aliens",
+    "votes": 21,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/go-squirt-much-aliens/5173991363231744"
+  },
+  {
+    "name": "windy fisher",
+    "votes": 21,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/windy-fisher/5280045910507520"
+  },
+  {
+    "name": "kinda cringe p",
+    "votes": 21,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/kinda-cringe-p/5790362930298880"
+  },
+  {
+    "name": "sts future subpage",
+    "votes": 21,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/sts-future-subpage/6511314003476480"
+  },
+  {
+    "name": "tunguska event tco entry 1",
+    "votes": 21,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/tunguska-event-tco-entry-1/6531570027249664"
+  },
+  {
+    "name": "arrowjs v14 documentation",
+    "votes": 21,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/arrowjs-v14-documentation/6633603262496768"
+  },
+  {
+    "name": "new webpage",
+    "votes": 20,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/6564315319156736"
+  },
+  {
+    "name": "logo for edmund",
+    "votes": 19,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/logo-for-edmund/5940095023890432"
+  },
+  {
+    "name": "the simplest platformer tutorial i can make",
+    "votes": 19,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/the-simplest-platformer-tutorial-i-can-make/6223758738505728"
+  },
+  {
+    "name": "web voiceover api example",
+    "votes": 18,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/web-voiceover-api-example/5160301091536896"
+  },
+  {
+    "name": "the math aint mathin",
+    "votes": 18,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/the-math-aint-mathin/6014803910508544"
+  },
+  {
+    "name": "avatar images on ka",
+    "votes": 17,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/avatar-images-on-ka/5398729877733376"
+  },
+  {
+    "name": "pause button",
+    "votes": 17,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/pause-button/5686798966898688"
+  },
+  {
+    "name": "representing flow fields as vectors",
+    "votes": 17,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/representing-flow-fields-as-vectors/6486308347363328"
+  },
+  {
+    "name": "watercolor self portrait",
+    "votes": 16,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/watercolor-self-portrait/4711237985878016"
+  },
+  {
+    "name": "substring typewriter",
+    "votes": 16,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/substring-typewriter/4801881389842432"
+  },
+  {
+    "name": "loading sine demo",
+    "votes": 16,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/loading-sine-demo/6511849148563456"
+  },
+  {
+    "name": "wip",
+    "votes": 15,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/wip/5053175628611584"
+  },
+  {
+    "name": "representing flow fields as colored pixels",
+    "votes": 14,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/representing-flow-fields-as-colored-pixels/4516322653421568"
+  },
+  {
+    "name": "animated dots 3 sine demo graphing sine",
+    "votes": 14,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/animated-dots-3-sine-demo-graphing-sine/5690656132743168"
+  },
+  {
+    "name": "auto tiling tutorial",
+    "votes": 13,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/auto-tiling-tutorial/5643230232100864"
+  },
+  {
+    "name": "new webpage",
+    "votes": 12,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/6424260317462528"
+  },
+  {
+    "name": "endless fibonacci",
+    "votes": 12,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/endless-fibonacci/6677399715889152"
+  },
+  {
+    "name": "no promises",
+    "votes": 11,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/no-promises/4593132331515904"
+  },
+  {
+    "name": "sil",
+    "votes": 11,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/sil/5376815283159040"
+  },
+  {
+    "name": "how to flip an image or object",
+    "votes": 11,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/how-to-flip-an-image-or-object/5824726435807232"
+  },
+  {
+    "name": "the hiding place",
+    "votes": 11,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/the-hiding-place/6552424101625856"
+  },
+  {
+    "name": "new webpage",
+    "votes": 10,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/5511692981944320"
+  },
+  {
+    "name": "ember",
+    "votes": 10,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/ember/5892782747336704"
+  },
+  {
+    "name": "world assembly",
+    "votes": 10,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/world-assembly/6086280565342208"
+  },
+  {
+    "name": "ember official work in progress",
+    "votes": 10,
+    "spinOffs": 2,
+    "link": "https://www.khanacademy.org/computer-programming/ember-official-work-in-progress/6534166191325184"
+  },
+  {
+    "name": "scroll go br",
+    "votes": 9,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/scroll-go-br/4755324248113152"
+  },
+  {
+    "name": "congrats velvet faith",
+    "votes": 9,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/congrats-velvet-faith/5836471182606336"
+  },
+  {
+    "name": "side scroller 1",
+    "votes": 8,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/side-scroller-1/4730331473821696"
+  },
+  {
+    "name": "new program",
+    "votes": 8,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5157500621078528"
+  },
+  {
+    "name": "get array column",
+    "votes": 7,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/get-array-column/5684157810917376"
+  },
+  {
+    "name": "working on ember",
+    "votes": 7,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/working-on-ember/6008725266677760"
+  },
+  {
+    "name": "json workaround",
+    "votes": 7,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/json-workaround/6109959250427904"
+  },
+  {
+    "name": "thumbnail",
+    "votes": 6,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/thumbnail/4571435369021440"
+  },
+  {
+    "name": "scroll event",
+    "votes": 6,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/scroll-event/5325127216316416"
+  },
+  {
+    "name": "emerald updated",
+    "votes": 6,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/emerald-updated/5333249415233536"
+  },
+  {
+    "name": "title",
+    "votes": 5,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/title/5000725911093248"
+  },
+  {
+    "name": "new program",
+    "votes": 5,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5200148713226240"
+  },
+  {
+    "name": "pixel emerald",
+    "votes": 5,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/pixel-emerald/5286370497314816"
+  },
+  {
+    "name": "new program",
+    "votes": 5,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5302039928946688"
+  },
+  {
+    "name": "menu",
+    "votes": 5,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/menu/5338104664997888"
+  },
+  {
+    "name": "new program",
+    "votes": 5,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5921992758050816"
+  },
+  {
+    "name": "halved tutorial version",
+    "votes": 4,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/halved-tutorial-version/4607234622013440"
+  },
+  {
+    "name": "coc wip",
+    "votes": 4,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/coc-wip/4677153557430272"
+  },
+  {
+    "name": "new webpage",
+    "votes": 4,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/4860724269137920"
+  },
+  {
+    "name": "rendering with html5 canvas",
+    "votes": 4,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/rendering-with-html5-canvas/5004848661118976"
+  },
+  {
+    "name": "helping out twilight",
+    "votes": 4,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/helping-out-twilight/5461598096506880"
+  },
+  {
+    "name": "finished bow math",
+    "votes": 4,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/finished-bow-math/6162120855699456"
+  },
+  {
+    "name": "what is a constructor",
+    "votes": 4,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/what-is-a-constructor/6349652149059584"
+  },
+  {
+    "name": "new webpage",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/4586788492525568"
+  },
+  {
+    "name": "webgl trial",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/webgl-trial/4720397807632384"
+  },
+  {
+    "name": "new program",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/4885720842289152"
+  },
+  {
+    "name": "mp3 to mpeg base64 converter",
+    "votes": 3,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/mp3-to-mpeg-base64-converter/5014116225695744"
+  },
+  {
+    "name": "arrow subscription page",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/arrow-subscription-page/5120056688820224"
+  },
+  {
+    "name": "workspace",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/workspace/5185279577866240"
+  },
+  {
+    "name": "the mystery of flight",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/the-mystery-of-flight/5205158859030528"
+  },
+  {
+    "name": "new program",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5261298365153280"
+  },
+  {
+    "name": "map point to a line",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/map-point-to-a-line/5390891263639552"
+  },
+  {
+    "name": "vector library",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/vector-library/5401606793904128"
+  },
+  {
+    "name": "question page d",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/question-page-d/5487715857776640"
+  },
+  {
+    "name": "yeah",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/yeah/5579553994227712"
+  },
+  {
+    "name": "stagnant pixel art",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/stagnant-pixel-art/5632713035530240"
+  },
+  {
+    "name": "new webpage",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/5716882744983552"
+  },
+  {
+    "name": "explaining iifes",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/explaining-iifes/5750034937069568"
+  },
+  {
+    "name": "stream base64 decoder",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/stream-base64-decoder/5913830347096064"
+  },
+  {
+    "name": "new webpage",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/5967567196372992"
+  },
+  {
+    "name": "scoring 1",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/scoring-1/6010225045716992"
+  },
+  {
+    "name": "my platformer engine",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/my-platformer-engine/6228584844541952"
+  },
+  {
+    "name": "encoding numbers tutorial",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/encoding-numbers-tutorial/6409729181925376"
+  },
+  {
+    "name": "new webpage",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/6451074712649728"
+  },
+  {
+    "name": "thanks mushy avocado",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/thanks-mushy-avocado/6562195216580608"
+  },
+  {
+    "name": "workspace ii",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/workspace-ii/6596348623896576"
+  },
+  {
+    "name": "my attempt at optimization",
+    "votes": 3,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/my-attempt-at-optimization/6730855128154112"
+  },
+  {
+    "name": "new webpage",
+    "votes": 3,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/6748533096103936"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/4565225060220928"
+  },
+  {
+    "name": "vector library",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/vector-library/4607970167930880"
+  },
+  {
+    "name": "init new",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/init-new/4616555017846784"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/4652702755897344"
+  },
+  {
+    "name": "workspace iii",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/workspace-iii/4705787914665984"
+  },
+  {
+    "name": "new webpage",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/4710551477993472"
+  },
+  {
+    "name": "helping out twilight",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/helping-out-twilight/4786428169601024"
+  },
+  {
+    "name": "using keyboard user events",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/using-keyboard-user-events/4849812692189184"
+  },
+  {
+    "name": "number",
+    "votes": 2,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/number/4938334191927296"
+  },
+  {
+    "name": "spin off of contest ai",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/spin-off-of-contest-ai/4962278681722880"
+  },
+  {
+    "name": "my sandbox d",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/my-sandbox-d/4985281529561088"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5042337947107328"
+  },
+  {
+    "name": "vector library",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/vector-library/5043273199173632"
+  },
+  {
+    "name": "hmmmmmmm",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/hmmmmmmm/5047706991771648"
+  },
+  {
+    "name": "math is pretty 2",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/math-is-pretty-2/5085529192382464"
+  },
+  {
+    "name": "representing flow fields by pixel shading",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/representing-flow-fields-by-pixel-shading/5094168915525632"
+  },
+  {
+    "name": "new webpage",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/5182060106661888"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5215254983393280"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5244101677858816"
+  },
+  {
+    "name": "fourier series",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/fourier-series/5245639405977600"
+  },
+  {
+    "name": "spin off of coc2026 rd2",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/spin-off-of-coc2026-rd2/5378999859134464"
+  },
+  {
+    "name": "this works",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/this-works/5423309009108992"
+  },
+  {
+    "name": "new webpage",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/5473359184969728"
+  },
+  {
+    "name": "efficiently processing arrays",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/efficiently-processing-arrays/5683614171054080"
+  },
+  {
+    "name": "multiple touch handleing",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/multiple-touch-handleing/5696245163933696"
+  },
+  {
+    "name": "new webpage",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/5743356390064128"
+  },
+  {
+    "name": "particle systems",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/particle-systems/5773443033120768"
+  },
+  {
+    "name": "notes",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/notes/5860302472003584"
+  },
+  {
+    "name": "conversion",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/conversion/5976598425026560"
+  },
+  {
+    "name": "ember pixel art workspace",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/ember-pixel-art-workspace/5978644441907200"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/6041049742884864"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/6174695759331328"
+  },
+  {
+    "name": "scoring 2",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/scoring-2/6211919039873024"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 1,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/6222378175873024"
+  },
+  {
+    "name": "new program",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/6326202103808000"
+  },
+  {
+    "name": "next up forces",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/next-up-forces/6483555172270080"
+  },
+  {
+    "name": "representing flow fields as vectors",
+    "votes": 2,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/representing-flow-fields-as-vectors/6558003485655040"
+  },
+  {
+    "name": "new program",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/4508176875110400"
+  },
+  {
+    "name": "spin off of firebugs wip",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/spin-off-of-firebugs-wip/4631889674682368"
+  },
+  {
+    "name": "json workaround",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/json-workaround/5021273451053056"
+  },
+  {
+    "name": "new program",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5032636475621376"
+  },
+  {
+    "name": "healthbar",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/healthbar/5171854377009152"
+  },
+  {
+    "name": "new program",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-program/5288573900079104"
+  },
+  {
+    "name": "random levels",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/random-levels/5302711905861632"
+  },
+  {
+    "name": "fourier series equation",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/fourier-series-equation/5753010033115136"
+  },
+  {
+    "name": "psalter display",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/psalter-display/5773318774964224"
+  },
+  {
+    "name": "new webpage",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/new-webpage/5788104291696640"
+  },
+  {
+    "name": "attempt 3",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/attempt-3/5803394698493952"
+  },
+  {
+    "name": "benchmarking",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/benchmarking/5848000303644672"
+  },
+  {
+    "name": "color recognition",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/color-recognition/5865501848354816"
+  },
+  {
+    "name": "image loader",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/image-loader/6386477648494592"
+  },
+  {
+    "name": "pixel coin",
+    "votes": 1,
+    "spinOffs": 0,
+    "link": "https://www.khanacademy.org/computer-programming/pixel-coin/6512993087307776"
+  }
+];
+                const $ = s => document.querySelector(s);
+        const $$ = s => [...document.querySelectorAll(s)];
+        const G = '#50D890';
+        const B = '#4F98CA';
+        const W = '#e6edf3';
+        const still = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+        /* Background shapes with parallax */
+        (function () {
+            const bg = $('#bg');
+            const C = [G, B, W];
+            const S = [
+                c => `<polygon points="50,8 94,88 6,88" fill="${c}"/>`,
+                c => `<polygon points="50,8 94,88 6,88" fill="none" stroke="${c}" stroke-width="5"/>`,
+                c => `<circle cx="50" cy="50" r="40" fill="${c}"/>`,
+                c => `<circle cx="50" cy="50" r="40" fill="none" stroke="${c}" stroke-width="5"/>`,
+                c => `<rect x="12" y="12" width="76" height="76" rx="6" fill="none" stroke="${c}" stroke-width="5"/>`
+            ];
+            const items = [];
+            let h = '';
+
+            for (let i = 0; i < 46; i++) {
+                const s = 16 + Math.random() * Math.random() * 150;
+                const c = C[i % 3];
+                const o = (.04 + Math.random() * .07).toFixed(3);
+
+                items.push({
+                    d: .25 + s / 150 * 1.2,
+                    ph: Math.random() * 6.28
                 });
+                h += `<svg viewBox="0 0 100 100" style="left:${Math.random() * 100}%;top:${Math.random() * 100}%;width:${s}px;height:${s}px;opacity:${o};transform:rotate(${Math.random() * 360 | 0}deg)">${S[Math.random() * 5 | 0](c)}</svg>`;
+            }
+
+            bg.innerHTML = h;
+            [...bg.children].forEach((e, i) => items[i].e = e);
+            if (still) return;
+
+            let mx = 0;
+            let my = 0;
+            let x = 0;
+            let y = 0;
+
+            addEventListener('pointermove', e => {
+                mx = e.clientX / innerWidth - .5;
+                my = e.clientY / innerHeight - .5;
             });
-        }
-    </script>
-    <!--Scroll function for hashing-->
-    <script type>
-        function Scroll(x) { 
-            window.scrollTo({ top: x, behavior: "smooth" }); 
+
+            (function loop(t) {
+                requestAnimationFrame(loop);
+                if (document.hidden) return;
+
+                x += (mx - x) * .06;
+                y += (my - y) * .06;
+                items.forEach(o => {
+                    const k = o.d * 40;
+                    o.e.style.translate = `${-x * k + Math.sin(t / 2600 + o.ph) * 5 * o.d}px ${-y * k - scrollY * .06 * o.d + Math.cos(t / 3100 + o.ph) * 5 * o.d}px`;
+                });
+            })(0);
+        })();
+
+        /* project cards */
+        const TRI = '<svg viewBox="0 0 100 100"><polygon points="50,10 92,86 8,86" fill="none" stroke="#50D890" stroke-width="5"/></svg>';
+        const FEATURED_PROJECTS = [
+            'ponas castle',
+            'ka music player',
+            'dronemaker gamecoc',
+            'make your own spirograph',
+            'team arrow coc',
+            'visualizing elastic collisions with gravitational forces physics engine v1',
+            'australia'
+        ];
+        const smallTitleWords = new Set([
+            'a', 'an', 'and', 'as', 'at', 'but', 'by', 'for',
+            'in', 'nor', 'of', 'on', 'or', 'the', 'to', 'via', 'with'
+        ]);
+        const titleCase = s => {
+            const parts = s.toLowerCase().split(/(\s+)/);
+            const words = parts.filter(p => !(/^\s+$/.test(p)));
+            let wordIndex = 0;
+
+            return parts.map(part => {
+                if (/^\s+$/.test(part)) return part;
+
+                const isEdge = wordIndex === 0 || wordIndex === words.length - 1;
+                const word = part;
+                wordIndex++;
+
+                if (!isEdge && smallTitleWords.has(word)) return word;
+
+                return word
+                    .replace(/(^|[-'])[a-z]/g, c => c.toUpperCase())
+                    .replace(/\bcoc(?=\d)/gi, 'COC')
+                    .replace(/\b(ai|api|coc|ka|tco|html5|webgl|mp3|mpeg|base64|json|iifes|wip|ii|iii|v\d+)\b/gi, w => w.toUpperCase())
+                    .replace(/coc$/i, 'COC')
+                    .replace(/js$/i, 'JS');
+            }).join('');
         };
-    </script>
-    <!--Navigational junk-->
-    <script type>
-        window.addEventListener('scroll', function() {
-            //if(window.scrollY)
-            
-            var scrollDistance = window.pageYOffset || window.scrollY || document.documentElement.scrollTop;
-            var underlay = document.getElementById('underlay');
-            if (scrollDistance >= 50) {
-                underlay.style.display = 'block';
-            }
-            if (scrollDistance <= 50) {
-                underlay.style.display = 'none';
-            }
-            //alert(scrollDistance)
-        });
+        const card = p => [
+            `<a class="card" href="${p.link}" target="_blank" rel="noopener">`,
+            `<div class="th">${TRI}<img src="${p.link}/latest.png" alt="${titleCase(p.name)} thumbnail" loading="lazy" style="position:absolute;inset:0;opacity:0" onload="this.style.opacity=1" onerror="this.remove()"></div>`,
+            `<div class="cb"><h4>${titleCase(p.name)}</h4><p>${p.votes ?? '—'} votes · ${p.spinOffs ?? '—'} spin-offs</p><span class="tag">${p.type}</span></div>`,
+            '</a>'
+        ].join('');
+        const byVotes = (a, b) => (b.votes ?? -1) - (a.votes ?? -1);
 
-        function toggleMenu() {
-            const navLinks = document.getElementById("nav-links");
-            const body = document.body;
-            const hamburger = document.getElementById("hamburger");
-            const closeIcon = document.getElementById("close-icon");
+        $('#feat').innerHTML = PROJECTS
+            .filter(p => FEATURED_PROJECTS.includes(p.name))
+            .sort(byVotes)
+            .map(card)
+            .join('');
 
-            // Toggle the mobile menu
-            if (navLinks.classList.contains("open")) {
-                navLinks.classList.remove("open");
-                body.classList.remove("no-scroll"); // Enable scrolling
-                hamburger.style.display = "block"; // Show hamburger icon
-                closeIcon.style.display = "none"; // Hide "X" icon
-            } else {
-                navLinks.classList.add("open");
-                body.classList.add("no-scroll"); // Disable scrolling
-                hamburger.style.display = "none"; // Hide hamburger icon
-                closeIcon.style.display = "block"; // Show "X" icon
-            }
+        const types = ['All', ...new Set(PROJECTS.map(p => p.type))];
+        $('#filters').innerHTML = types
+            .map((t, i) => `<button class="${i ? '' : 'on'}">${t}</button>`)
+            .join('');
+
+        let curT = 'All';
+        let curSort = 'votes';
+
+        function showProj() {
+            const q = $('#q').value.trim().toLowerCase();
+            const L = PROJECTS.filter(p =>
+                (curT === 'All' || p.type === curT) &&
+                (p.name + ' ' + p.type).toLowerCase().includes(q)
+            );
+
+            L.sort(
+                curSort === 'name'
+                    ? (a, b) => a.name.localeCompare(b.name)
+                    : curSort === 'spinOffs'
+                        ? (a, b) => (b.spinOffs ?? -1) - (a.spinOffs ?? -1)
+                        : byVotes
+            );
+
+            $('#all').innerHTML = L.length
+                ? L.map(card).join('')
+                : '<p class="sub">No projects match that search.</p>';
+            $('#cnt').textContent = L.length + ' of ' + PROJECTS.length + ' projects';
         }
 
-        // Close the mobile menu when a link is clicked
-        document.querySelectorAll("#nav-links li > a").forEach(link => {
-            link.addEventListener("click", (event) => {
-                const navLinks = document.getElementById("nav-links");
-                const body = document.body;
+        $('#filters').onclick = e => {
+            if (e.target.tagName !== 'BUTTON') return;
 
-                // Check if the link is a dropdown parent
-                if (link.nextElementSibling && link.nextElementSibling.tagName === "UL") {
-                    event.preventDefault(); // Prevent default behavior for dropdown parents
-                } else {
-                    // Close the menu for regular links (only for mobile menu)
-                    if (navLinks.classList.contains("open")) {
-                        navLinks.classList.remove("open");
-                        body.classList.remove("no-scroll"); // Enable scrolling
-                        document.getElementById("hamburger").style.display = "block"; // Show hamburger icon
-                        document.getElementById("close-icon").style.display = "none"; // Hide "X" icon
+            $$('#filters button').forEach(b => b.classList.remove('on'));
+            e.target.classList.add('on');
+            curT = e.target.textContent;
+            showProj();
+        };
+        $('#sorts').onclick = e => {
+            if (e.target.tagName !== 'BUTTON') return;
+
+            $$('#sorts button').forEach(b => b.classList.remove('on'));
+            e.target.classList.add('on');
+            curSort = e.target.dataset.sort;
+            showProj();
+        };
+        $('#q').oninput = showProj;
+        showProj();
+
+        const lnk = (c, t, d, p, x) => [
+            `<a class="ic" data-p="${p}"${x ? ` data-s="${x}"` : ''} tabindex="0">`,
+            `<h4>${t}</h4>`,
+            `<p>${d}</p>`,
+            '</a>'
+        ].join('');
+        $('#incl').innerHTML = INCL.map(c => lnk(0, c[0], c[1], c[2])).join('');
+        $('#ints').innerHTML = INTS.map(c => lnk(0, c[0], c[1], 'about', c[2])).join('');
+        $('#hl').innerHTML = HL
+            .map(h => `<div class="fact"><b>${h[0]}</b><span>${h[1]}</span></div>`)
+            .join('');
+        $('#blocks').innerHTML = BLOCKS
+            .map((b, i) => `<div class="block" id="b${i}"><h4>${b[0]}</h4><p>${b[1]}</p></div>`)
+            .join('');
+
+        /* Navigation */
+        let ready = false;
+
+        function setMenu(o) {
+            $('#nav').classList.toggle('open', !!o);
+            $('#burger').innerHTML = o ? '&#10005;' : '&#9776;';
+        }
+
+        function show(id) {
+            if (!document.getElementById(id) || !$('#' + id).classList.contains('page')) {
+                id = 'home';
+            }
+
+            $$('.page').forEach(p => p.classList.toggle('on', p.id === id));
+            $$('nav a').forEach(a =>
+                a.classList.toggle('on', (a.dataset.p === id && !a.dataset.s) || a.dataset.g === id)
+            );
+            setMenu(0);
+
+            if (location.hash !== '#' + id) {
+                history.replaceState(null, '', '#' + id);
+            }
+
+            scrollTo(0, 0);
+            if (id === 'home' && ready) fly();
+        }
+
+        document.addEventListener('click', e => {
+            const a = e.target.closest('[data-p]');
+            if (!a) return;
+
+            show(a.dataset.p);
+            if (a.dataset.s) {
+                setTimeout(() => {
+                    const t = document.getElementById(a.dataset.s);
+                    if (t) {
+                        scrollTo({
+                            top: t.getBoundingClientRect().top + scrollY - 120,
+                            behavior: 'smooth'
+                        });
                     }
+                }, 60);
+            }
+        });
+        $('#burger').onclick = () => setMenu(!$('#nav').classList.contains('open'));
+        addEventListener('hashchange', () => show(location.hash.slice(1)));
+        addEventListener('scroll', () => $('#under').classList.toggle('on', scrollY > 50), { passive: true });
+        show(location.hash.slice(1) || 'home');
+
+        /* Typing */
+        (function () {
+            const el = $('#ty');
+            let r = 0;
+            let i = 0;
+            let del = false;
+
+            if (still) {
+                el.textContent = ROLES[0];
+                return;
+            }
+
+            (function tick() {
+                const w = ROLES[r];
+                i += del ? -1 : 1;
+                el.textContent = w.slice(0, i);
+                let t = del ? 45 : 85;
+
+                if (!del && i === w.length) {
+                    del = true;
+                    t = 1400;
+                } else if (del && i === 0) {
+                    del = false;
+                    r = (r + 1) % ROLES.length;
+                    t = 350;
+                }
+
+                setTimeout(tick, t);
+            })();
+        })();
+
+        /* Flying triangles and hero icons */
+        const TRIS = [
+            [30, 30, 150, 250], [30, 30, 350, 150], [40, 30, 250, 270], [50, 35, 350, 250],
+            [20, 180, 50, 130], [40, 90, 100, 100], [60, 130, 160, 50], [80, 30, -20, 10],
+            [240, 130, 20, -180], [240, 100, 520, -150], [200, 30, 320, 280], [100, 84, 20, 280],
+            [200, 30, 320, -80], [100, 50, 150, 320], [200, 50, 550, 320], [200, 50, 500, 120]
+        ]; /* size, rotation, left, top on a 600px reference */
+        const GL = 'M12 4 2 20h20L12 4zm0 3.77L18.39 18H5.61L12 7.77z';
+        const GH='<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
+        (function () {
+            const cols = [W, G, B];
+            const pool = [];
+
+            cols.forEach(c => {
+                for (let i = 0; i < 6; i++) {
+                    pool.push(c);
                 }
             });
-        });
-        </script>
-    <!--The Typewriter scripts-->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-    <script>
-        var typingOptions = {
-            strings: ["WebDev.", "Artist.", "Birder.", "Botanist.", "Chess Enthusiast.", "Game Dev", "Biologist.", "Fox lover."],
-            typeSpeed: 80,
-            backSpeed: 60,
-            loop: !0
+            pool.sort(() => Math.random() - .5);
+
+            const tri = (c, b) => `<div class="tri${b ? ' b' : ''}" style="--bd:${(3 + Math.random() * 2).toFixed(1)}s"><svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="${GL}" fill="${c}"/></svg></div>`;
+            $('#tris').innerHTML = TRIS.map((t, i) => {
+                const a = pool[i % 18];
+                let b = pool[(i + 17) % 18];
+                if (b === a) b = cols[(cols.indexOf(a) + 1) % 3];
+
+                return `<div class="sw" style="left:${t[2] / 6}%;top:${(t[3] + 65) / 6}%;--s:${t[0]};--r:${t[1]}deg;--d:${i * 20}ms">${tri(a)}${tri(b, 1)}</div>`;
+            }).join('');
+
+            $('#ico').innerHTML = LINKS.map((l, i) => `<a style="--i:${i}" href="${l[1]}" target="_blank" rel="noopener" title="${l[0]}" aria-label="${l[0]}">${l[2] ? `<img src="${l[2]}" alt="" onerror="this.replaceWith('${l[0][0]}')">` : GH}</a>`).join('');
+            const im = l => l[2]
+                ? `<img src="${l[2]}" alt="" onerror="this.replaceWith('${l[0][0]}')">`
+                : GH;
+
+            $('#linkbox').innerHTML = LINKS
+                .map(l => `<a class="ic lc" href="${l[1]}" target="_blank" rel="noopener"><span class="li">${im(l)}</span><div><h4>${l[0]}</h4><p>${l[3]}</p></div></a>`)
+                .join('');
+            $('#fl').innerHTML = LINKS
+                .map(l => `<a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a>`)
+                .join('');
+        })();
+        /* Scrolling pushes the triangles away from the title */
+        function scrollFx() {
+            const k = scrollY * .4;
+            [...$('#tris').children].forEach(w => {
+                if (w._m) {
+                    w.style.transform = `translate(${w._m[0] * k}px,${w._m[1] * k}px)`;
+                }
+            });
         }
-            new Typed('#typeCursor', typingOptions)
-    </script>
-    <script>
-        // Wait for the iframe to load
-        window.addEventListener('load', function () {
-            const iframe = document.querySelector('.iframe-class');
-            iframe.addEventListener('load', function () {
-                // Access the iframe's content
-                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        addEventListener('scroll', scrollFx, { passive: true });
 
-                // Find the "Today" button and simulate a click
-                const todayButton = iframeDocument.querySelector('button[aria-label="Today"]');
-                if (todayButton) {
-                    todayButton.click();
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dropdownParents = document.querySelectorAll('nav ul li > a');
-            dropdownParents.forEach(link => {
-                const text = link.textContent.trim();
-                if (text.startsWith("About Us") || text.startsWith("Worship")) {
-                    link.classList.add('no-click');
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Select all anchor tags
-            const links = document.querySelectorAll('a');
-    
-            // Add target="_blank" to each link except navigational and footer links
-            links.forEach(link => {
-                const isNavLink = link.closest('nav'); // Check if the link is inside a <nav> element
-                const isFooterLink = link.closest('footer'); // Check if the link is inside a <footer> element
-                if (!isNavLink && !isFooterLink) {
-                    link.setAttribute('target', '_blank');
-                }
-            });
-        });
-    </script>
-    <!--Add the onscroll class to all content text-->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Add .onscroll to all .content-content, .content-text, .leadership-section, .leadership-card inside <main>
-            document.querySelectorAll('main .content-content, main .content-text, main .leadership-section, main .leadership-card .bullet').forEach(el => {
-                el.classList.add('onscroll');
-            });
-        });
-    </script>
-    <!--Canvas Script-->
-    <script type="module">
-        /*
-            HTML Canvas is the best
-            thing that ever happened to me. 
-            Learn it.
-        */
-        
-        //This is a cool trick
-        function resizeCanvasToDisplaySize(canvas) {
-            const width = canvas.clientWidth;
-            const height = canvas.clientHeight;
-            if (canvas.width !== width || canvas.height !== height) {
-                canvas.width = width;
-                canvas.height = height;
-                return true;
-            }
-            return false;
-        }
+        /* Place the triangles around the text without letting them overlap */
+        function layoutTris() {
+            const T = $('#tris');
+            const k = $('.hero>div:first-child').getBoundingClientRect();
+            const tr = T.getBoundingClientRect();
+            const M = 32;
+            const W = tr.width;
+            const H = tr.height;
+            const kx = k.left - tr.left;
+            const ky = k.top - tr.top;
+            const K = {
+                l: kx - M,
+                r: kx + k.width + M,
+                t: ky - M,
+                b: ky + k.height + M
+            };
+            const mx = (K.l + K.r) / 2;
+            const my = (K.t + K.b) / 2;
+            const hw = (K.r - K.l) / 2;
+            const hh = (K.b - K.t) / 2;
+            const U = Math.min(innerWidth, innerHeight) / 600;
+            const placed = [];
+            const free = (x, y, r) =>
+                x > -.04 * W && x < 1.04 * W && y > -.04 * H && y < 1.04 * H &&
+                Math.hypot(Math.max(K.l - x, 0, x - K.r), Math.max(K.t - y, 0, y - K.b)) >= r &&
+                placed.every(p => Math.hypot(p.x - x, p.y - y) >= p.r + r + 8);
 
-        function initializeCanvas(canvasId, COLOR) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext("2d");
+            TRIS.map((t, i) => i)
+                .sort((a, b) => TRIS[b][0] - TRIS[a][0])
+                .forEach((i, n) => {
+                    const w = T.children[i];
+                    const s = TRIS[i][0] * U;
+                    const r = .5 * s;
+                    let spot = null;
 
-            let numSquares = 500;
-            let sqs = [];
-            const rect = canvas.getBoundingClientRect();
-            let attractor = { x: rect.width / 2, y: rect.height /2 - 200, };
+                    search: for (let q = 0; q < 24; q++) {
+                        const a = (n * 137.5 + 245 + (q % 2 ? 1 : -1) * Math.ceil(q / 2) * 15) * Math.PI / 180;
+                        const dx = Math.cos(a);
+                        const dy = Math.sin(a);
+                        const e = Math.min(hw / Math.abs(dx || 1e-6), hh / Math.abs(dy || 1e-6));
 
-            function resize() {
-                resizeCanvasToDisplaySize(canvas);
-                //attractor.x = canvas.width / 2;
-                //attractor.y = canvas.height / 2;
-                createCircles();
-            }
-            window.addEventListener('resize', resize);
+                        for (let st = 0; st < 8; st++) {
+                            const d = e + r * .6 + st * .2 * s;
+                            const x = mx + dx * d;
+                            const y = my + dy * d;
 
-            function createCircles() {
-                sqs = [];
-                for (let i = 0; i < numSquares; i++) {
-                    const x = Math.random() * (canvas.width - 20) + 10;
-                    const y = Math.random() * (canvas.height - 20) + 10;
-                    sqs.push(new Sq(x, y));
-                }
-            }
-
-            // Global speed factor to slow down all squares
-            const globalSpeedFactor = 0.3; 
-
-            class Sq {
-                constructor(x, y) {
-                    this.x = x;
-                    this.y = y;
-
-                    this.radius = Math.random() * 5 + 3; // Random radius between 3 and 8
-
-                    const dx = attractor.x - this.x;
-                    const dy = attractor.y - this.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    const speed = (this.radius / 3) * globalSpeedFactor; // Speed proportional to the radius and global speed factor
-
-                    this.v = {
-                        x: (dx / distance) * speed,
-                        y: (dy / distance) * speed,
-                    };
-
-                    this.targetV = { ...this.v };
-                    this.hasFill = Math.random() < 0.5; // Randomly decide if the circle has a fill
-                }
-
-                checkCollisionWithCanvas() {
-                    const padding = 100;
-                    if (this.x < this.radius + padding || this.x > canvas.width - this.radius - padding || this.y < this.radius + padding || this.y > canvas.height - this.radius - padding) {
-                        const dx = attractor.x - this.x;
-                        const dy = attractor.y - this.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        const speed = (this.radius / 3) * globalSpeedFactor; // Speed proportional to the radius and global speed factor
-
-                        this.targetV.x = (dx / distance) * speed;
-                        this.targetV.y = (dy / distance) * speed;
-                    }
-                }
-                
-                //lets make everything look more haywire :D
-                checkCollisionWithOthers() {
-                    for (let other of sqs) {
-                        if (other !== this) {
-                            const dx = other.x - this.x;
-                            const dy = other.y - this.y;
-                            const distance = Math.sqrt(dx * dx + dy * dy);
-                            const minDist = this.radius + other.radius;
-                            if (distance < minDist && distance > 0) {
-                                // Resolve overlap
-                                const overlap = 0.5 * (minDist - distance);
-                                const nx = dx / distance;
-                                const ny = dy / distance;
-                                this.x -= overlap * nx;
-                                this.y -= overlap * ny;
-                                other.x += overlap * nx;
-                                other.y += overlap * ny;
-
-                                // Calculate velocities along the normal
-                                const dvx = this.v.x - other.v.x;
-                                const dvy = this.v.y - other.v.y;
-                                const dot = dvx * nx + dvy * ny;
-                                if (dot < 0) { // Only resolve if moving towards each other
-                                    // Elastic collision (equal mass)
-                                    this.v.x -= dot * nx;
-                                    this.v.y -= dot * ny;
-                                    other.v.x += dot * nx;
-                                    other.v.y += dot * ny;
-                                }
+                            if (free(x, y, r)) {
+                                spot = [x, y];
+                                break search;
                             }
                         }
                     }
-                }
-            
-                update() {
-                    this.x += this.v.x;
-                    this.y += this.v.y;
 
-                    this.checkCollisionWithCanvas();
-                    // Accurate collision resolution
-                    this.checkCollisionWithOthers();
-
-                    // No velocity smoothing for realistic bounce
-                    // Clamp to canvas bounds
-                    this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
-                    this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
-                }
-
-                draw() {
-                    if (this.hasFill) {
-                        ctx.fillStyle = COLOR;
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                        ctx.fill();
-                    } else {
-                        ctx.strokeStyle = COLOR;
-                        ctx.lineWidth = 2;
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                        ctx.stroke();
+                    w.style.transform = '';
+                    w.style.display = spot ? '' : 'none';
+                    if (spot) {
+                        placed.push({ x: spot[0], y: spot[1], r });
+                        w.style.left = spot[0] - s / 2 + 'px';
+                        w.style.top = spot[1] - s / 2 + 'px';
                     }
-                }
-            }
-            
-            resize(); // Initial sizing and circle creation
-
-            const render = () => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                for (let i in sqs) {
-                    sqs[i].update();
-                }
-                for (let i in sqs) {
-                    sqs[i].draw();
-                }
-            };
-            setInterval(render, 1000 / 60);
+                });
         }
-        
-        // Initialize canvases for all pages
-        document.addEventListener("DOMContentLoaded", () => {
-            const aboutCanvas = document.getElementById("aboutCanvas");
-            if (aboutCanvas) {
-                initializeCanvas("aboutCanvas", "#50D890");
+
+        addEventListener('resize', () => {
+            if (ready) {
+                layoutTris();
+                scrollFx();
             }
         });
+        function fly() {
+            const H = $('.hero');
+            const T = $('#tris');
+
+            H.classList.remove('go');
+            layoutTris();
+
+            const h = $('.hero h1').getBoundingClientRect();
+            const hx = h.left + h.width / 2;
+            const hy = h.top + h.height / 2;
+
+            [...T.children].forEach(w => {
+                const r = w.firstChild.getBoundingClientRect();
+                const dx = hx - (r.left + r.width / 2);
+                const dy = hy - (r.top + r.height / 2);
+                const d = Math.hypot(dx, dy) || 1;
+
+                w.style.setProperty('--sx', dx + 'px');
+                w.style.setProperty('--sy', dy + 'px');
+                w._m = [-dx / d, -dy / d];
+            });
+
+            scrollFx();
+            void H.offsetWidth;
+            H.classList.add('go');
+            if (still) return;
+
+            setTimeout(() => {
+                document.documentElement.style.setProperty('--sh', 8);
+                const E = ['#home', '#bg', 'nav', '#under'].map(s => $(s));
+                E.forEach(e => e.classList.add('shake'));
+                setTimeout(() => E.forEach(e => e.classList.remove('shake')), 400);
+            }, 560);
+        }
+
+        /* Start the intro when the fonts are ready and the hero is visible */
+        let fontsOk = false;
+
+        function begin() {
+            if (ready || !fontsOk || document.hidden) return;
+
+            const r = $('.hero').getBoundingClientRect();
+            if (!r.width || r.bottom <= 0 || r.top >= innerHeight) return;
+
+            ready = true;
+            document.body.classList.remove('hold');
+            fly();
+        }
+
+        Promise.race([
+            document.fonts ? document.fonts.ready : 0,
+            new Promise(r => setTimeout(r, 1500))
+        ]).then(() => {
+            fontsOk = true;
+            begin();
+        });
+        new IntersectionObserver(() => begin()).observe($('.hero'));
+        document.addEventListener('visibilitychange', begin);
+
+        /* Reveal sections, support keyboard navigation, and return to the top */
+        const rv = new IntersectionObserver(es => es.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('in');
+                rv.unobserve(e.target);
+            }
+        }), { threshold: .1 });
+        $$('.hs').forEach(e => rv.observe(e));
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && e.target.matches('[data-p],#top')) {
+                e.target.click();
+            }
+        });
+        document.addEventListener('pointermove', e => {
+            const c = e.target.closest && e.target.closest('.ic,.card');
+            if (c) {
+                const r = c.getBoundingClientRect();
+                c.style.setProperty('--mx', e.clientX - r.left + 'px');
+                c.style.setProperty('--my', e.clientY - r.top + 'px');
+            }
+        });
+        $('#top').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
     </script>
+</body>
 </html>
